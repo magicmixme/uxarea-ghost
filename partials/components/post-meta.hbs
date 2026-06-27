@@ -1,0 +1,31 @@
+<div class="flex items-center space-x-2 {{#if access}}{{#has visibility="public"}}public-post{{/has}}{{/if}} {{#unless primary_tag}}no-primary-tag{{/unless}}">
+    {{#match showVisibility "=" "true"}}
+        {{#unless access}}
+            {{^has visibility="public"}}
+                <div class="ux-arena_tag_secondary{{size}}">
+                    <span>{{>"icons/lock" size="14"}}</span>
+                    <span>{{visibility}}</span>
+                </div>
+            {{/has}}
+        {{/unless}}
+    {{/match}}
+    <div class="post-tags flex gap-1 flex-wrap">
+        {{#match showTagFeatured "=" "true"}}
+            {{#if featured}}
+                <div class="ux-arena_tag_secondary{{size}}">
+                    <span>{{>"icons/bolt" size="14"}}</span>
+                    <span>{{t "Featured post"}}</span>
+                </div>
+            {{/if}}
+        {{/match}}
+        {{#foreach tags limit="6"}}
+            {{#match visibility "=" "public"}}
+                {{#if @first}}
+                    <a href="{{url}}" class="ux-arena_tag{{../size}}" {{#if accent_color}}style="background-color: {{accent_color}}!important; border-color: {{accent_color}}!important;"{{/if}}>{{name}}</a>
+                {{else}}
+                    <a href="{{url}}" class="ux-arena_tag_secondary{{../size}}">{{name}}</a>
+                {{/if}}
+            {{/match}}
+        {{/foreach}}
+    </div>
+</div>

@@ -1,0 +1,224 @@
+{{!< default}}
+
+{{#post}}
+<style>.page-gate-content { display: none; }</style>
+
+<div class="min-h-screen relative z-20 flex flex-col">
+    {{>"header"}}
+
+    <div id="page-gate-overlay" class="page-gate-overlay"
+         data-hash="{{@custom.protected_page_password_hash}}"
+         data-formspree="{{@custom.formspree_form_id}}"
+         data-page-title="{{title}}">
+
+        <div class="page-gate-box">
+
+            <!-- Brand above card -->
+            <div class="page-gate-brand">
+                {{#if @custom.logo_for_dark_mode}}
+                    <img src="{{@custom.logo_for_dark_mode}}" alt="{{@site.title}}" class="page-gate-logo">
+                {{else}}
+                    <span class="page-gate-site-name">{{@site.title}}</span>
+                {{/if}}
+            </div>
+
+            <!-- Card -->
+            <div class="page-gate-card">
+                <div class="page-gate-card-header">
+                    <p class="page-gate-label">Private</p>
+                </div>
+
+                <!-- Password panel -->
+                <div id="gate-panel-password">
+                    <p class="page-gate-subtitle">Have the password? Enter it below.</p>
+                    <form id="page-gate-form" class="page-gate-form" novalidate>
+                        <input
+                            type="password"
+                            id="page-gate-input"
+                            class="page-gate-input"
+                            placeholder="Password"
+                            required
+                            aria-label="Password"
+                        />
+                        <button type="submit" class="page-gate-btn">Unlock →</button>
+                        <p id="page-gate-error" class="page-gate-error" role="alert" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <!-- Request access panel -->
+                <div id="gate-panel-request" class="gate-panel-hidden">
+                    <p class="page-gate-subtitle">Leave your name and email and I'll send the password if it's a fit. <strong>You're requesting access to: {{title}}</strong></p>
+                    <form id="page-access-form" class="page-gate-form" novalidate>
+                        <input
+                            type="text"
+                            id="access-name"
+                            class="page-gate-input"
+                            placeholder="Your name"
+                            required
+                            aria-label="Your name"
+                        />
+                        <input
+                            type="email"
+                            id="access-email"
+                            class="page-gate-input"
+                            placeholder="Your email"
+                            required
+                            aria-label="Your email"
+                        />
+                        <button type="submit" class="page-gate-btn" id="access-submit-btn">Send request →</button>
+                        <p id="access-error" class="page-gate-error" role="alert" aria-live="polite"></p>
+                    </form>
+                    <p id="access-success" class="gate-success-msg gate-panel-hidden">
+                        Request sent. I'll be in touch shortly.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Switch links below card -->
+            <div class="gate-switch-row">
+                <button class="gate-switch-link" id="show-request-btn" type="button">
+                    Don't have the password? Request access →
+                </button>
+                <button class="gate-switch-link" id="show-password-btn" type="button" style="display:none;">
+                    ← Already have the password?
+                </button>
+            </div>
+
+        </div>
+
+        <nav class="page-gate-nav">
+            <a href="{{@site.url}}">Home</a>
+            <span class="page-gate-nav-dot">·</span>
+            <a href="{{@site.url}}">Articles</a>
+            <span class="page-gate-nav-dot">·</span>
+            <a href="https://www.linkedin.com/in/alaajabawi/" target="_blank" rel="noopener">LinkedIn</a>
+        </nav>
+    </div>
+
+    <main id="trex_main" class="page-gate-content flex-1 py-6 w-full relative z-20">
+        <div class="ux-arena_container_small">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="font-semibold text-4xl mb-8">{{title}}</h1>
+                <div class="canvas post-content">
+                    {{content}}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {{>"footer"}}
+</div>
+
+<script>
+(function () {
+  var overlay    = document.getElementById('page-gate-overlay');
+  var content    = document.querySelector('.page-gate-content');
+  var stored     = overlay ? (overlay.dataset.hash || '') : '';
+  var formspree  = overlay ? (overlay.dataset.formspree || '') : '';
+  var pageTitle  = overlay ? (overlay.dataset.pageTitle || document.title) : document.title;
+  var SESSION_KEY = 'page_gate_' + btoa(encodeURIComponent(location.pathname));
+
+  /* ── unlock ── */
+  function unlock() {
+    overlay.style.display = 'none';
+    content.style.display = 'block';
+    document.body.style.overflow = '';
+  }
+
+  if (!stored) { unlock(); return; }
+  if (sessionStorage.getItem(SESSION_KEY) === stored) { unlock(); return; }
+  document.body.style.overflow = 'hidden';
+
+  /* ── sha256 ── */
+  async function sha256(str) {
+    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str.trim()));
+    return Array.from(new Uint8Array(buf)).map(function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  /* ── password form ── */
+  var pwForm   = document.getElementById('page-gate-form');
+  var pwInput  = document.getElementById('page-gate-input');
+  var pwError  = document.getElementById('page-gate-error');
+
+  if (pwForm) {
+    pwForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var val = pwInput ? pwInput.value : '';
+      if (!val) return;
+      var hash = await sha256(val);
+      if (hash === stored) {
+        sessionStorage.setItem(SESSION_KEY, stored);
+        pwError.textContent = '';
+        unlock();
+      } else {
+        pwError.textContent = 'Incorrect password. Try again.';
+        if (pwInput) { pwInput.value = ''; pwInput.focus(); }
+      }
+    });
+  }
+
+  /* ── panel switching ── */
+  var panelPw      = document.getElementById('gate-panel-password');
+  var panelReq     = document.getElementById('gate-panel-request');
+  var btnRequest   = document.getElementById('show-request-btn');
+  var btnPassword  = document.getElementById('show-password-btn');
+
+  btnRequest.addEventListener('click', function () {
+    panelPw.classList.add('gate-panel-hidden');
+    panelReq.classList.remove('gate-panel-hidden');
+    btnRequest.style.display = 'none';
+    btnPassword.style.display = '';
+    var nameInput = document.getElementById('access-name');
+    if (nameInput) nameInput.focus();
+  });
+
+  btnPassword.addEventListener('click', function () {
+    panelReq.classList.add('gate-panel-hidden');
+    panelPw.classList.remove('gate-panel-hidden');
+    btnPassword.style.display = 'none';
+    btnRequest.style.display = '';
+    if (pwInput) pwInput.focus();
+  });
+
+  /* ── request access form ── */
+  var reqForm     = document.getElementById('page-access-form');
+  var reqSuccess  = document.getElementById('access-success');
+  var reqError    = document.getElementById('access-error');
+  var reqSubmit   = document.getElementById('access-submit-btn');
+
+  if (reqForm) {
+    reqForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var name  = (document.getElementById('access-name') || {}).value || '';
+      var email = (document.getElementById('access-email') || {}).value || '';
+      if (!name || !email) { reqError.textContent = 'Please fill in both fields.'; return; }
+      if (!formspree) { reqError.textContent = 'Request form is not configured yet.'; return; }
+
+      reqSubmit.disabled = true;
+      reqSubmit.textContent = 'Sending…';
+      reqError.textContent = '';
+
+      try {
+        var res = await fetch('https://formspree.io/f/' + formspree, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name: name, email: email, page: pageTitle, _subject: 'Access request: ' + pageTitle })
+        });
+        if (res.ok) {
+          reqForm.style.display = 'none';
+          reqSuccess.classList.remove('gate-panel-hidden');
+        } else {
+          throw new Error('submit failed');
+        }
+      } catch (_) {
+        reqError.textContent = 'Something went wrong. Please try emailing directly.';
+        reqSubmit.disabled = false;
+        reqSubmit.textContent = 'Send request →';
+      }
+    });
+  }
+})();
+</script>
+{{/post}}

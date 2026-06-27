@@ -1,0 +1,992 @@
+{{!< default}} {{#post}} <link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Gate ── */
+    .page-gate-content {
+      display: none;
+    }
+
+    /* ── Portfolio scoped reset ── */
+    #portfolio-page {
+      font-family: 'Roboto', sans-serif;
+      color: #e8e8e8;
+      background: #0d0d0d;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    #portfolio-page *,
+    #portfolio-page *::before,
+    #portfolio-page *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    #portfolio-page ::selection {
+      background: #e8e8e8;
+      color: #0d0d0d;
+    }
+
+    #portfolio-page .pf-wrap {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    #portfolio-page .section-label {
+      font-size: 20px;
+      font-weight: 200;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    #portfolio-page .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* Strength tags */
+    #portfolio-page .strength-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    #portfolio-page .strength-tag {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 5px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+    }
+
+    /* Case study cards */
+    #portfolio-page .case-card {
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    #portfolio-page .case-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    #portfolio-page .case-accent {
+      height: 3px;
+    }
+
+    #portfolio-page .case-header {
+      padding: 24px 28px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    #portfolio-page .case-header-left {
+      flex: 1;
+    }
+
+    #portfolio-page .case-meta {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    #portfolio-page .case-title {
+      font-size: 24px;
+      font-weight: 400;
+      margin: 0 0 6px;
+      line-height: 1.25;
+      color: #e8e8e8;
+    }
+
+    #portfolio-page .case-sector {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    #portfolio-page .case-toggle {
+      font-size: 12px;
+      color: #444;
+      margin-top: 4px;
+      min-width: 80px;
+      text-align: right;
+      transition: color 0.2s;
+    }
+
+    #portfolio-page .case-card:hover .case-toggle {
+      color: #777;
+    }
+
+    #portfolio-page .case-metrics {
+      padding: 0 28px 20px;
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    #portfolio-page .case-metric {
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    #portfolio-page .case-body {
+      padding: 0 28px 28px;
+      display: none;
+    }
+
+    #portfolio-page .case-body.open {
+      display: block;
+    }
+
+    #portfolio-page .case-body-inner {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 24px;
+    }
+
+    #portfolio-page .case-field {
+      margin-bottom: 24px;
+    }
+
+    #portfolio-page .case-field:last-child {
+      margin-bottom: 0;
+    }
+
+    #portfolio-page .case-field-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    #portfolio-page .case-outcome-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    #portfolio-page .placeholder {
+      background: repeating-linear-gradient(135deg, transparent, transparent 8px, rgba(255, 255, 255, 0.02) 8px, rgba(255, 255, 255, 0.02) 16px);
+      border: 1.5px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 16px 20px;
+      font-size: 13.5px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    #portfolio-page .visual-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #777;
+      margin: 3px 4px 3px 0;
+    }
+
+    /* Image gallery */
+    #portfolio-page .img-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    #portfolio-page .img-thumb {
+      position: relative;
+      flex: 1 1 calc(33.333% - 8px);
+      min-width: 160px;
+      aspect-ratio: 16 / 10;
+      border: 1.5px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      background: repeating-linear-gradient(135deg, transparent, transparent 8px, rgba(255, 255, 255, 0.02) 8px, rgba(255, 255, 255, 0.02) 16px);
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #portfolio-page .img-thumb:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    #portfolio-page .img-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    #portfolio-page .img-thumb.has-img img {
+      display: block;
+    }
+
+    #portfolio-page .img-thumb.has-img .img-thumb-label,
+    #portfolio-page .img-thumb.has-img .img-thumb-icon {
+      display: none;
+    }
+
+    #portfolio-page .img-thumb-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      color: #555;
+      font-size: 16px;
+    }
+
+    #portfolio-page .img-thumb-label {
+      font-size: 11px;
+      color: #555;
+      text-align: center;
+      padding: 0 8px;
+      line-height: 1.3;
+    }
+
+    #portfolio-page .img-thumb-expand {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 12px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #portfolio-page .img-thumb.has-img:hover .img-thumb-expand {
+      display: flex;
+    }
+
+    /* How I work */
+    #portfolio-page .how-card {
+      border-left: 3px solid rgba(255, 255, 255, 0.15);
+      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+
+    #portfolio-page .how-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #portfolio-page .how-card h3 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: #e8e8e8;
+    }
+
+    #portfolio-page .how-card p {
+      font-size: 16px;
+      color: #777;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Animations */
+    #portfolio-page .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #portfolio-page .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #portfolio-page .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    #portfolio-page .footer-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #portfolio-page .pf-footer-btn {
+      display: block;
+      padding: 14px 24px;
+      text-align: center;
+      min-width: 180px;
+      font-size: 13px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    #portfolio-page .pf-footer-btn:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #e8e8e8;
+    }
+
+    #portfolio-page .pf-footer-btn.accent {
+      background: var(--ghost-accent-color);
+      border-color: var(--ghost-accent-color);
+      color: #000;
+      font-weight: 600;
+    }
+
+    #portfolio-page .pf-footer-btn.accent:hover {
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      #portfolio-page .pf-wrap {
+        padding: 0 20px;
+      }
+
+      #portfolio-page .case-title {
+        font-size: 20px;
+      }
+
+      #portfolio-page .img-thumb {
+        min-width: 120px;
+      }
+    }
+
+    /* Hide reader panel — portfolio uses fixed design, CSS vars don't apply */
+#reader-panel, #reader-toggle { display: none !important; }
+
+/* Lightbox (prefixed to avoid Ghost conflict) */
+    .pf-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(10, 10, 10, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      padding: 32px;
+    }
+
+    .pf-lightbox.open {
+      display: flex;
+    }
+
+    .pf-lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 8px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      object-fit: contain;
+    }
+
+    .pf-lightbox-caption {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      max-width: 500px;
+    }
+
+    .pf-lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .pf-lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .pf-lightbox-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.4);
+      gap: 12px;
+    }
+
+    .pf-lightbox-empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+  </style>
+
+  <!-- ── Gate ── -->
+  <div id="page-gate-overlay" class="page-gate-overlay" data-hash="{{@custom.protected_page_password_hash}}"
+    data-formspree="{{@custom.formspree_form_id}}" data-page-title="{{title}}">
+
+    <div class="page-gate-box">
+      <div class="page-gate-brand">
+        {{#if @custom.logo_for_dark_mode}}
+        <img src="{{@custom.logo_for_dark_mode}}" alt="{{@site.title}}" class="page-gate-logo">
+        {{else}}
+        <span class="page-gate-site-name">{{@site.title}}</span>
+        {{/if}}
+      </div>
+
+      <div class="page-gate-card">
+        <div class="page-gate-card-header">
+          <p class="page-gate-label">Private</p>
+          <h1 class="page-gate-title">Alex Aljabawi</h1>
+        </div>
+
+        <div id="gate-panel-password">
+          <p class="page-gate-subtitle">Have the password? Enter it below.</p>
+          <form id="page-gate-form" class="page-gate-form" novalidate>
+            <input type="password" id="page-gate-input" class="page-gate-input" placeholder="Password"
+              autocomplete="current-password" autofocus aria-label="Page password" />
+            <button type="submit" class="page-gate-btn">Unlock →</button>
+            <p id="page-gate-error" class="page-gate-error" role="alert" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div id="gate-panel-request" class="gate-panel-hidden">
+          <p class="page-gate-subtitle">Leave your name and email. I'll review and reach out if it's a fit.</p>
+          <form id="page-access-form" class="page-gate-form" novalidate>
+            <input type="text" id="access-name" class="page-gate-input" placeholder="Your name" required
+              aria-label="Your name" />
+            <input type="email" id="access-email" class="page-gate-input" placeholder="Your email" required
+              aria-label="Your email" />
+            <button type="submit" class="page-gate-btn" id="access-submit-btn">Send request →</button>
+            <p id="access-error" class="page-gate-error" role="alert" aria-live="polite"></p>
+          </form>
+          <p id="access-success" class="gate-success-msg gate-panel-hidden">Request sent. I'll be in touch shortly.</p>
+        </div>
+      </div>
+
+      <div class="gate-switch-row">
+        <button class="gate-switch-link" id="show-request-btn" type="button">Don't have the password? Request access
+          →</button>
+        <button class="gate-switch-link" id="show-password-btn" type="button" style="display:none;">← Already have the
+          password?</button>
+      </div>
+    </div>
+
+    <nav class="page-gate-nav">
+      <a href="{{@site.url}}">Home</a>
+      <span class="page-gate-nav-dot">·</span>
+      <a href="{{@site.url}}">Articles</a>
+      <span class="page-gate-nav-dot">·</span>
+      <a href="https://www.linkedin.com/in/alaajabawi/" target="_blank" rel="noopener">LinkedIn</a>
+    </nav>
+  </div>
+
+  <!-- ── Portfolio Content ── -->
+  <div class="page-gate-content">
+    <div id="portfolio-page">
+
+      <!-- HEADER -->
+      <header class="pf-wrap" style="padding-top:48px; padding-bottom:40px;">
+        <div class="fade-in"
+          style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:40px;">
+          <div>
+            <h1 style="font-size:42px; font-weight:400; margin:0 0 4px; line-height:1.1; letter-spacing:-0.5px;">Alex
+              Aljabawi</h1>
+            <p style="font-size:14px; color:#666;">Senior Product Designer &middot; Chicago</p>
+          </div>
+          <div style="font-size:13px; color:#555; text-align:right; line-height:1.8;">
+            <div><a href="mailto:alaa.jabawi@me.com" style="color:inherit; text-decoration:none;">alaa.jabawi@me.com</a>
+            </div>
+            <div><a href="https://uxarena.net" style="color:inherit; text-decoration:none;">uxarena.net</a></div>
+          </div>
+        </div>
+        <div class="fade-in" style="transition-delay:0.1s;">
+          <p
+            style="font-size:28px; line-height:1.25; margin:0 0 0; max-width:1150px; font-style:italic; letter-spacing:-0.2px; color:#e8e8e8;">
+            Designed for regulated healthcare, enterprise finance, and clinical systems &mdash; delivering measurable
+            gains in adoption, workflow speed, and design governance.
+          </p>
+          <div class="strength-bar">
+            <span class="strength-tag">Design systems &amp; governance</span>
+            <span class="strength-tag">Evidence-driven product design</span>
+            <span class="strength-tag">Complex enterprise workflows</span>
+            <span class="strength-tag">Cross-functional leadership</span>
+            <span class="strength-tag">Discovery &amp; validation</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pf-wrap">
+        <hr class="divider">
+      </div>
+
+      <!-- CASE STUDIES -->
+      <section class="pf-wrap" style="padding-top:48px; padding-bottom:48px;">
+        <div class="fade-in">
+          <div class="section-label" style="margin-bottom:32px;">Case studies</div>
+        </div>
+        <div id="case-studies-container"></div>
+      </section>
+
+      <div class="pf-wrap">
+        <hr class="divider">
+      </div>
+
+      <!-- HOW I WORK -->
+      <section class="pf-wrap" style="padding-top:48px; padding-bottom:48px;">
+        <div class="fade-in">
+          <div class="section-label" style="margin-bottom:8px;">How I work</div>
+          <p style="font-size:22px; font-style:italic; margin:0 0 32px; color:#666; line-height:1.4;">
+            Non-visual work made visible &mdash; the strategy, governance, and process stories that don&rsquo;t fit in a
+            screenshot.
+          </p>
+        </div>
+        <div class="fade-in" style="transition-delay:0.05s;">
+          <div class="how-card">
+            <h3>Discovery &amp; framing</h3>
+            <p>A pattern I&rsquo;ve seen repeatedly is that ownership begins when the real problem surfaces through
+              stakeholder alignment, not assumptions.</p>
+            <div class="img-gallery">
+              <div class="img-thumb" onclick="openPfLightbox('how',0)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Process diagram</div>
+              </div>
+              <div class="img-thumb" onclick="openPfLightbox('how',1)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Discovery artifacts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fade-in" style="transition-delay:0.1s;">
+          <div class="how-card">
+            <h3>Validation &amp; iteration</h3>
+            <p>What usually determines success is how early research clarifies trade-offs &mdash; not how many
+              iterations we cycle through.</p>
+            <div class="img-gallery">
+              <div class="img-thumb" onclick="openPfLightbox('how',2)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Validation loop diagram</div>
+              </div>
+              <div class="img-thumb" onclick="openPfLightbox('how',3)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Usability test findings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fade-in" style="transition-delay:0.15s;">
+          <div class="how-card">
+            <h3>Systems thinking</h3>
+            <p>The harder part is not the system itself, but establishing decision criteria that scale consistency
+              without slowing independent judgment.</p>
+            <div class="img-gallery">
+              <div class="img-thumb" onclick="openPfLightbox('how',4)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">System architecture</div>
+              </div>
+              <div class="img-thumb" onclick="openPfLightbox('how',5)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Token structure</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fade-in" style="transition-delay:0.2s;">
+          <div class="how-card">
+            <h3>Cross-functional partnership</h3>
+            <p>I focus on creating clarity where competing priorities exist &mdash; when trade-offs become visible in
+              business terms, alignment usually follows.</p>
+            <div class="img-gallery">
+              <div class="img-thumb" onclick="openPfLightbox('how',6)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Org / collaboration diagram</div>
+              </div>
+              <div class="img-thumb" onclick="openPfLightbox('how',7)">
+                <div class="img-thumb-icon">+</div>
+                <div class="img-thumb-label">Workshop facilitation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="pf-wrap">
+        <hr class="divider">
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="pf-wrap" style="padding-top:48px; padding-bottom:64px;">
+        <div class="fade-in">
+          <div class="footer-grid">
+            <div>
+              <h2 style="font-size:28px; font-weight:400; margin:0 0 8px; color:#e8e8e8;">Let&rsquo;s talk</h2>
+              <p style="font-size:14px; color:#555; margin:0 0 20px; line-height:1.6; max-width:400px;">
+                What matters most to me at this stage is joining a place where design is expected to improve decisions,
+                not simply produce artifacts.
+              </p>
+              <div style="font-size:14px; line-height:2; color:#555;">
+                <div><a href="mailto:alaa.jabawi@me.com"
+                    style="color:inherit; text-decoration:none;">alaa.jabawi@me.com</a></div>
+                <div><a href="tel:+19493004476" style="color:inherit; text-decoration:none;">(949) 300-4476</a></div>
+                <div><a href="https://uxarena.net" style="color:inherit; text-decoration:none;">uxarena.net</a></div>
+              </div>
+            </div>
+            <div class="footer-cta">
+              <a href="https://www.linkedin.com/in/alaajabawi/" target="_blank" rel="noopener"
+                class="pf-footer-btn accent">View LinkedIn</a>
+              <a href="mailto:alaa.jabawi@me.com" class="pf-footer-btn">Send email</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.06); padding:20px 32px; text-align:center;">
+        <span style="font-size:11px; color:#444; letter-spacing:0.5px;">Portfolio structured using the comparable
+          experience framework</span>
+      </div>
+
+    </div><!-- #portfolio-page -->
+  </div><!-- .page-gate-content -->
+
+  <!-- Lightbox -->
+  <div class="pf-lightbox" id="pf-lightbox" onclick="closePfLightbox()">
+    <button class="pf-lightbox-close" onclick="closePfLightbox()" aria-label="Close">&times;</button>
+    <img id="pf-lb-img" src="" alt="">
+    <div class="pf-lightbox-empty" id="pf-lb-empty">
+      <div class="pf-lightbox-empty-icon">+</div>
+      <div id="pf-lb-empty-label" style="font-size:14px;">No image added yet</div>
+    </div>
+    <div class="pf-lightbox-caption" id="pf-lb-caption"></div>
+  </div>
+
+  <script>
+    /* ── DATA ── */
+    var CASES = [
+      {
+        id: "lumere",
+        company: "GHX (Lumere)", period: "2022–2023", accent: "#1D9E75",
+        title: "Clinical analytics platform redesign",
+        sector: "Healthcare Supply Chain · Data-Intensive · 4,500+ Hospitals",
+        metrics: ["+30% task completion rate", "−40% design iteration cycle time", "Stronger cross-team alignment"],
+        hook: "[Map this to the specific JD requirement this case study answers]",
+        problem: "[What was the core usability or business problem in the supply chain analytics workflow?]",
+        process: "[User interviews, usability testing, cross-functional workshops. How did you synthesize findings into design iterations?]",
+        outcome: "+30% task completion rate. −40% design iteration cycle time. Stronger cross-team alignment.",
+        outcomeExtra: "",
+        learned: "[What changed in your approach because of this project? What unexpected thing happened?]",
+        visuals: ["Before/after: key workflow screens (NDA-safe)", "Research synthesis diagram", "Impact metrics visualization"],
+        images: [
+          { label: "Analytics dashboard — key screens", src: "" },
+          { label: "Research synthesis artifacts", src: "" },
+          { label: "Task completion metrics", src: "" }
+        ]
+      },
+      {
+        id: "baxter",
+        company: "Baxter International", period: "2023–Present", accent: "#E85D24",
+        title: "Global design system for infusion systems",
+        sector: "MedTech · Regulated · Embedded + SaaS",
+        metrics: ["Improved clinician usability across embedded and SaaS interfaces", "Reduced iteration risk in high-stakes product areas"],
+        hook: "[Map this to the specific JD requirement this case study answers]",
+        problem: "[Describe the specific friction or gap you were hired to solve. What was broken, missing, or underperforming?]",
+        process: "[Your approach: discovery methods, stakeholder alignment, design iterations. Include how you navigated regulatory constraints.]",
+        outcome: "Improved clinician usability across embedded and SaaS interfaces. Reduced iteration risk in high-stakes product areas.",
+        outcomeExtra: "[Add specific metrics when available]",
+        learned: "[What you know now that you didn’t before. What will you bring forward to your next team?]",
+        visuals: ["Process diagram: discovery → validation flow", "Org chart: your role relative to PM, Eng, Clinical", "Timeline: key milestones and decision points"],
+        images: [
+          { label: "Design system component library", src: "" },
+          { label: "Clinician workflow — before / after", src: "" },
+          { label: "Discovery → validation process", src: "" }
+        ]
+      },
+      {
+        id: "firstam",
+        company: "First American", period: "2017–2022", accent: "#378ADD",
+        title: "Enterprise platforms & fraud prevention",
+        sector: "Financial Services · B2B/B2E · 5+ Applications",
+        metrics: ["+35% task efficiency", "−25% design-to-dev handoff time", "−15% fraud incidents"],
+        hook: "[Map this to the specific JD requirement this case study answers]",
+        problem: "[What friction existed across the enterprise platform portfolio? What was the fraud-prevention design challenge?]",
+        process: "[Discovery programs, usability testing, Agile iteration. How did you manage design across 5+ applications simultaneously?]",
+        outcome: "+35% task efficiency. −25% design-to-dev handoff time. −15% fraud incidents.",
+        outcomeExtra: "",
+        learned: "[Five years at one company — how did your role and approach evolve? What did you carry into your next position?]",
+        visuals: ["Platform ecosystem diagram", "Fraud prevention flow (NDA-safe)", "Career growth timeline at First American"],
+        images: [
+          { label: "Enterprise platform ecosystem", src: "" },
+          { label: "Fraud prevention interface", src: "" },
+          { label: "Design-to-dev handoff artifacts", src: "" }
+        ]
+      }
+    ];
+
+    var HOW_IMAGES = [
+      { label: "Process diagram", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Discovery-framing-1.png" },
+      { label: "Discovery artifacts", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Discovery-framing-2.png" },
+      { label: "Validation loop diagram", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Validation-iteration-01.png" },
+      { label: "Usability test findings", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Validation-iteration-02.png" },
+      { label: "System architecture", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Systems-thinking-01.png" },
+      { label: "Token structure", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Systems-thinking-02.png" },
+      { label: "Org / collaboration diagram", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Cross-functional-partnership01-3.png" },
+      { label: "Workshop facilitation", src: "https://storage.ghost.io/c/7b/46/7b462c95-1a8f-4c31-a5a0-8eec4b0e2dd3/content/images/2026/05/Cross-functional-partnership02-3.png" }
+    ];
+
+    var openCase = null;
+
+    /* ── RENDERING ── */
+    function thumbHTML(caseId, idx, img) {
+      var has = img.src && img.src.length > 0;
+      var h = '<div class="img-thumb' + (has ? " has-img" : "") + '" onclick="event.stopPropagation();openPfLightbox(\'' + caseId + "'," + idx + ')">';
+      if (has) {
+        h += '<img src="' + img.src + '" alt="' + img.label + '" loading="lazy">';
+        h += '<div class="img-thumb-expand">⛶</div>';
+      } else {
+        h += '<div class="img-thumb-icon">+</div>';
+        h += '<div class="img-thumb-label">' + img.label + "</div>";
+      }
+      return h + "</div>";
+    }
+
+    function renderCaseStudies() {
+      var c = document.getElementById("case-studies-container");
+      if (!c) return;
+      var h = "";
+      CASES.forEach(function (cs) {
+        var isOpen = openCase === cs.id;
+        h += '<div class="case-card">';
+        h += '<div class="case-accent" style="background:' + cs.accent + '"></div>';
+        h += '<div class="case-header" data-case="' + cs.id + '"><div class="case-header-left">';
+        h += '<div class="case-meta">' + cs.company + " · " + cs.period + "</div>";
+        h += '<h2 class="case-title">' + cs.title + "</h2>";
+        h += '<div class="case-sector">' + cs.sector + "</div></div>";
+        h += '<div class="case-toggle">' + (isOpen ? "Collapse ↑" : "Expand ↓") + "</div></div>";
+        h += '<div class="case-metrics">';
+        cs.metrics.forEach(function (m) { h += '<span class="case-metric" style="color:' + cs.accent + '">' + m + "</span>"; });
+        h += "</div>";
+        h += '<div class="case-body' + (isOpen ? " open" : "") + '"><div class="case-body-inner">';
+        h += '<div class="case-field"><div class="case-field-label">Comparable experience hook</div><div class="placeholder">' + cs.hook + "</div></div>";
+        h += '<div class="case-field"><div class="case-field-label">The problem</div><div class="placeholder">' + cs.problem + "</div></div>";
+        h += '<div class="case-field"><div class="case-field-label">Your process</div><div class="placeholder">' + cs.process + "</div></div>";
+        h += '<div class="case-field"><div class="case-field-label">Measurable outcome</div><div class="case-outcome-text">' + cs.outcome + "</div>";
+        if (cs.outcomeExtra) h += '<div class="placeholder" style="margin-top:8px">' + cs.outcomeExtra + "</div>";
+        h += "</div>";
+        h += '<div class="case-field"><div class="case-field-label">What you learned &amp; brought forward</div><div class="placeholder">' + cs.learned + "</div></div>";
+        h += '<div class="case-field"><div class="case-field-label">Visual support needed</div><div>';
+        cs.visuals.forEach(function (v) { h += '<span class="visual-tag">' + v + "</span>"; });
+        h += "</div></div>";
+        h += '<div class="case-field"><div class="case-field-label">Project images</div><div class="img-gallery">';
+        cs.images.forEach(function (img, i) { h += thumbHTML(cs.id, i, img); });
+        h += "</div></div>";
+        h += "</div></div></div>";
+      });
+      c.innerHTML = h;
+    }
+
+    /* ── LIGHTBOX ── */
+    function openPfLightbox(caseId, idx) {
+      var img = caseId === "how" ? HOW_IMAGES[idx] : null;
+      if (!img) { for (var i = 0; i < CASES.length; i++) { if (CASES[i].id === caseId) { img = CASES[i].images[idx]; break; } } }
+      if (!img) return;
+      var ov = document.getElementById("pf-lightbox");
+      var li = document.getElementById("pf-lb-img");
+      var le = document.getElementById("pf-lb-empty");
+      var ll = document.getElementById("pf-lb-empty-label");
+      var lc = document.getElementById("pf-lb-caption");
+      if (img.src && img.src.length > 0) {
+        li.src = img.src; li.alt = img.label; li.style.display = "block"; le.style.display = "none";
+        lc.textContent = img.label;
+      } else {
+        li.style.display = "none"; le.style.display = "flex";
+        ll.textContent = img.label; lc.textContent = "Add an image src to populate this slot";
+      }
+      ov.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePfLightbox() {
+      var ov = document.getElementById("pf-lightbox");
+      if (ov) ov.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePfLightbox(); });
+
+    /* ── EVENTS ── */
+    document.addEventListener("DOMContentLoaded", function () {
+      var caseContainer = document.getElementById("case-studies-container");
+      if (caseContainer) {
+        caseContainer.addEventListener("click", function (e) {
+          var header = e.target.closest(".case-header");
+          if (!header) return;
+          var id = header.dataset.case;
+          openCase = openCase === id ? null : id;
+          renderCaseStudies();
+        });
+      }
+
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add("visible"); obs.unobserve(en.target); }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll("#portfolio-page .fade-in").forEach(function (el) { obs.observe(el); });
+
+      renderCaseStudies();
+
+      /* populate how-section thumbnails from HOW_IMAGES */
+      var howThumbs = document.querySelectorAll('.how-card .img-thumb');
+      HOW_IMAGES.forEach(function(img, idx) {
+        var thumb = howThumbs[idx];
+        if (!thumb || !img.src) return;
+        thumb.classList.add('has-img');
+        thumb.innerHTML = '<img src="' + img.src + '" alt="' + img.label + '" loading="lazy"><div class="img-thumb-expand">⛶</div>';
+      });
+    });
+
+    /* ── GATE ── */
+    (function () {
+      var overlay = document.getElementById("page-gate-overlay");
+      var content = document.querySelector(".page-gate-content");
+      var stored = overlay ? (overlay.dataset.hash || "") : "";
+      var formspree = overlay ? (overlay.dataset.formspree || "") : "";
+      var pageTitle = overlay ? (overlay.dataset.pageTitle || "Portfolio") : "Portfolio";
+      var SESSION_KEY = "page_gate_" + btoa(encodeURIComponent(location.pathname));
+
+      function unlock() {
+        if (overlay) overlay.style.display = "none";
+        if (content) content.style.display = "block";
+        document.body.style.overflow = "";
+      }
+
+      if (!stored) { unlock(); return; }
+      if (sessionStorage.getItem(SESSION_KEY) === stored) { unlock(); return; }
+      document.body.style.overflow = "hidden";
+
+      async function sha256(str) {
+        var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str.trim()));
+        return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+      }
+
+      var pwForm = document.getElementById("page-gate-form");
+      var pwInput = document.getElementById("page-gate-input");
+      var pwError = document.getElementById("page-gate-error");
+      if (pwForm) {
+        pwForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var val = pwInput ? pwInput.value : "";
+          if (!val) return;
+          var hash = await sha256(val);
+          if (hash === stored) {
+            sessionStorage.setItem(SESSION_KEY, stored);
+            pwError.textContent = "";
+            unlock();
+          } else {
+            pwError.textContent = "Incorrect password. Try again.";
+            if (pwInput) { pwInput.value = ""; pwInput.focus(); }
+          }
+        });
+      }
+
+      var btnRequest = document.getElementById("show-request-btn");
+      var btnPassword = document.getElementById("show-password-btn");
+      var panelPw = document.getElementById("gate-panel-password");
+      var panelReq = document.getElementById("gate-panel-request");
+
+      if (btnRequest) btnRequest.addEventListener("click", function () {
+        panelPw.classList.add("gate-panel-hidden");
+        panelReq.classList.remove("gate-panel-hidden");
+        btnRequest.style.display = "none";
+        btnPassword.style.display = "";
+        var n = document.getElementById("access-name"); if (n) n.focus();
+      });
+      if (btnPassword) btnPassword.addEventListener("click", function () {
+        panelReq.classList.add("gate-panel-hidden");
+        panelPw.classList.remove("gate-panel-hidden");
+        btnPassword.style.display = "none";
+        btnRequest.style.display = "";
+        if (pwInput) pwInput.focus();
+      });
+
+      var reqForm = document.getElementById("page-access-form");
+      var reqSuccess = document.getElementById("access-success");
+      var reqError = document.getElementById("access-error");
+      var reqSubmit = document.getElementById("access-submit-btn");
+      if (reqForm) {
+        reqForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var name = (document.getElementById("access-name") || {}).value || "";
+          var email = (document.getElementById("access-email") || {}).value || "";
+          if (!name || !email) { reqError.textContent = "Please fill in both fields."; return; }
+          if (!formspree) { reqError.textContent = "Request form is not configured yet."; return; }
+          reqSubmit.disabled = true; reqSubmit.textContent = "Sending…"; reqError.textContent = "";
+          try {
+            var res = await fetch("https://formspree.io/f/" + formspree, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Accept": "application/json" },
+              body: JSON.stringify({ name: name, email: email, page: pageTitle, _subject: "Portfolio access request from " + name })
+            });
+            if (res.ok) { reqForm.style.display = "none"; reqSuccess.classList.remove("gate-panel-hidden"); }
+            else throw new Error();
+          } catch (_) {
+            reqError.textContent = "Something went wrong. Email me directly at alaa.jabawi@me.com";
+            reqSubmit.disabled = false; reqSubmit.textContent = "Send request →";
+          }
+        });
+      }
+    })();
+  </script>
+
+  {{/post}}

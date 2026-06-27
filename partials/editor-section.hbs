@@ -1,0 +1,49 @@
+{{#get "posts" filter="tag:hash-editor" limit="4" include="authors,tags"}}
+    {{#match posts.length ">" 0}}
+        <section class="bg-black-50 dark:bg-black-900 py-8" id="editor-section">
+            <div class="ux-arena_container flex items-center justify-between mb-3">
+                <h2 class="!font-body text-xs uppercase font-medium">{{#if @custom.editor_section_title}}{{@custom.editor_section_title}}{{else}}Where the Argument Starts{{/if}}</h2>
+            </div>
+            <div class="ux-arena_container grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+
+                {{#foreach posts}}
+                    <div class="flex space-x-4" id="editor-section-post">
+                        {{#if feature_image}}
+                        <div class="relative w-[100px] h-[100px] rounded-lg shrink-0 overflow-hidden">
+                            <a href="{{url}}" class="absolute top-0 left-0 right-0 bottom-0 group hover:cursor-pointer overflow-hidden">
+                                <img
+                                    src="{{img_url feature_image size='xxs'}}"
+                                    data-src="{{img_url feature_image size='xl'}}"
+                                    alt="{{#if feature_image_alt}}{{ feature_image_alt }}{{else}}{{title}}{{/if}}"
+                                    class="w-full h-full object-cover rounded-lg lazytrex-image group-hover:scale-[1.03] transition-[scale] duration-400"
+                                    loading="lazy"
+                                />
+                                <span class="lazytrex-blur rounded-lg"></span>
+                            </a>
+                        </div>
+                        {{/if}}
+                        <div class="flex flex-col gap-y-1 pt-1">
+                            <div class="post-tags flex gap-1 flex-wrap">
+                                {{#foreach tags limit="6"}}
+                                    {{#match visibility "=" "public"}}
+                                        <a href="{{url}}" class="ux-arena_tag_small">{{name}}</a>
+                                    {{/match}}
+                                {{/foreach}}
+                            </div>
+                            <h2 class="font-bold !font-body hover:underline line-clamp-2">
+                                <a href="{{url}}">{{title}}</a>
+                            </h2>
+                            <div class="flex items-center gap-x-1 text-black-600 text-xs font-medium">
+                                <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
+                                {{#primary_author}}
+                                    <span>—</span>
+                                    <a href="{{url}}" class="hover:underline">{{name}}</a>
+                                {{/primary_author}}
+                            </div>
+                        </div>
+                    </div>
+                {{/foreach}}
+            </div>
+        </section>
+    {{/match}}
+{{/get}}

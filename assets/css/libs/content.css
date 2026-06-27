@@ -1,0 +1,297 @@
+/***** Editor Content *****/
+
+.canvas,
+.kg-width-full.kg-content-wide {
+  --gap: 1.25rem;
+  --main: min(740px,100% - var(--gap) * 2);
+  --wide: minmax(0,calc((1200px - var(--main))/2));
+  --full: minmax(var(--gap),1fr);
+  display: grid;
+  grid-template-columns: [full-start] var(--full) [wide-start] var(--wide) [main-start] var(--main) [main-end] var(--wide) [wide-end] var(--full) [full-end];
+  max-width: none;
+  width: 100%
+}
+
+.canvas-main,
+.canvas > * {
+  grid-column: main
+}
+
+.canvas-wide {
+  grid-column: wide
+}
+
+.canvas-full {
+  grid-column: full
+}
+
+.post-content {
+    @apply prose max-w-none dark:prose-invert prose-figcaption:text-center
+    prose-blockquote:border-ghost-accent prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-lg
+    prose-headings:m-0 prose-li:my-2 prose-ol:my-2 prose-ul:my-2 prose-p:m-0 prose-ul:m-0 prose-ol:m-0;
+}
+
+.post-content > * + * {
+    margin-top: 28px;
+    margin-bottom: 0;
+}
+
+/* Remove space between full-width cards */
+.post-content > .kg-width-full + .kg-width-full:not(.kg-width-full.kg-card-hascaption + .kg-width-full) {
+    margin-top: 0;
+}
+
+/* Add back a top margin to all headings,
+unless a heading is the very first element in the post content */
+.post-content > [id]:not(:first-child) {
+    margin-top: 28px;
+}
+
+/* Add a small margin between a heading and paragraph after it */
+.post-content > [id] + p {
+    margin-top: 28px;
+}
+
+/* A larger margin before/after dividers, blockquotes and embeds */
+.post-content > :is(hr, blockquote, iframe) {
+    position: relative;
+    margin-top: 42px!important;
+}
+
+.post-content > :is(hr, blockquote, iframe) + * {
+    margin-top: 42px!important;
+}
+
+.post-content hr {
+    @apply border-0 h-3.5 flex items-center justify-center text-center text-black-300;
+}
+.post-content hr:after {
+    content: "* * * * * *";
+    @apply text-[20px] tracking-[0.2em];
+}
+
+.post-content p a,
+.post-content li a {
+    @apply text-ghost-accent underline;
+}
+
+.post-content u {
+    @apply decoration-dotted !underline-offset-[6px];
+}
+
+/** CARDS **/
+
+.post-content :not(.kg-card):not(table):not([id]) + :is(.kg-card, table) {
+    margin-top: 28px;
+}
+
+.post-content :is(.kg-card, table) + :not(.kg-card):not(table):not([id]) {
+    margin-top: 28px;
+}
+
+.post-content :not(.kg-card):not([id]) + .kg-card.kg-width-full {
+    margin-top: 68px;
+}
+
+.post-content .kg-card.kg-width-full + :not(.kg-card):not([id]) {
+    margin-top: 68px;
+}
+
+.post-content > .kg-blockquote-alt {
+    @apply border-0 !not-italic text-black-600 font-medium !leading-snug tracking-tight relative !mt-26 !px-0;
+}
+
+.kg-blockquote-alt::before {
+    @apply content-['"'] absolute text-[300%] flex justify-center left-0 right-0 -top-[70px] text-black-300;
+}
+
+.kg-product-card-rating {
+    @apply text-yellow-500 max-[401px]:!mt-[2px] !relative top-1;
+}
+
+.kg-btn,
+.kg-product-card-button,
+.kg-header-card-button,
+.kg-signup-card-button,
+.kg-cta-button  {
+    @apply !py-3.5 !h-auto px-3 !text-sm;
+}
+
+.kg-signup-card-button,
+.kg-cta-button {
+    @apply !px-6;
+}
+
+.kg-callout-card-white {
+    @apply bg-white;
+}
+
+.kg-callout-card-grey {
+    background: rgba(124,139,154,.13);
+}
+
+.kg-callout-card-blue {
+    background: rgba(33,172,232,.12);
+}
+
+.kg-callout-card-green {
+    background: rgba(52,183,67,.12);
+}
+
+.kg-callout-card-yellow {
+    background: rgba(240,165,15,.13);
+}
+
+.kg-callout-card-red {
+    background: rgba(209,46,46,.11);
+}
+
+.kg-callout-card-pink {
+    background: rgba(225,71,174,.11);
+}
+
+.kg-callout-card-purple {
+    background: rgba(135,85,236,.12);
+}
+
+.kg-callout-card-accent {
+    background: var(--color-ghost-accent);
+}
+
+.kg-bookmark-card + .kg-bookmark-card {
+    @apply !mt-6;
+}
+
+.kg-bookmark-content {
+    @apply order-2 sm:order-1
+}
+
+.kg-bookmark-card a.kg-bookmark-container,
+.kg-product-card-container,
+.kg-audio-player-container,
+.kg-audio-card,
+.kg-file-card-container {
+    @apply dark:!bg-black-900 dark:!text-black-50
+}
+
+.kg-bookmark-thumbnail {
+    @apply aspect-video sm:aspect-[none] order-1 sm:order-2;
+}
+
+.kg-bookmark-container {
+    @apply flex flex-col sm:flex-row
+}
+
+.kg-bookmark-title {
+    @apply !text-base mb-2;
+}
+
+.kg-bookmark-metadata {
+    @apply !text-xs;
+}
+
+.kg-card figcaption {
+    @apply text-sm text-center text-black-500 dark:text-black-300 mt-2;
+}
+
+.kg-card figcaption a {
+    @apply text-ghost-accent underline;
+}
+
+.kg-toggle-heading-text {
+    @apply !text-lg !font-semibold tracking-tight;
+}
+
+.kg-toggle-content {
+    @apply !text-base !text-black-500;  
+}
+
+.post-content pre {
+    @apply !select-auto text-black-800 dark:text-black-200 !text-sm !pointer-events-auto max-h-[400px] overflow-auto rounded-lg border !border-black-100 bg-black-50 !p-6 dark:!border-black-800/[0.7] dark:bg-black-900;
+}
+
+.post-content pre::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+.post-content pre::-webkit-scrollbar {
+    @apply !h-1.5 !w-1.5 bg-transparent;
+}
+
+.post-content pre::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-black-200 dark:bg-black-700;
+}
+
+.kg-width-full {
+  grid-column: full;
+}
+
+.kg-width-wide {
+  grid-column: wide;
+}
+
+.kg-width-full .kg-header-card-heading,
+.kg-width-full .kg-signup-card-heading {
+    @apply !text-2xl lg:!text-4xl !m-0;
+}
+
+.kg-width-wide .kg-header-card-heading,
+.kg-width-wide .kg-signup-card-heading {
+    @apply !text-2xl lg:!text-3xl !m-0;
+}
+
+.kg-header-card-heading,
+.kg-signup-card-heading {
+    @apply !text-2xl;
+}
+
+.kg-header-card-subheading,
+.kg-signup-card-subheading {
+    @apply !text-lg !font-normal !m-0 !max-w-xl;
+}
+
+.kg-header-card-button {
+    @apply !m-0;
+}
+
+.kg-header-card-text {
+    @apply gap-y-4 sm:gap-y-6;
+}
+
+.kg-signup-card-form {
+    @apply !m-0;
+}
+
+.kg-signup-card-input {
+    @apply !text-base focus:ring-0;
+}
+
+.kg-signup-card-disclaimer {
+    @apply text-sm !m-0;
+}
+
+.post-content .trex-table {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: scroll;
+}
+
+.kg-signup-card-text {
+    @apply gap-y-4 sm:gap-y-6;
+}
+
+.kg-content-wide > div {
+  grid-column: wide;
+}
+
+
+.kg-embed-card iframe {
+  @apply w-full h-fit aspect-[16/9];
+}
+
+.kg-cta-text {
+    @apply !text-base;
+}
+
+.kg-image-card > .kg-image[width][height], .kg-gallery-image > img {
+    @apply hover:cursor-pointer;
+}

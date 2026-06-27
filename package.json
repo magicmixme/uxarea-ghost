@@ -1,0 +1,144 @@
+{
+  "name": "ux-arena",
+  "description": "minimal blog and magazine ghost theme",
+  "version": "1.1.0",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "license": "MIT",
+  "demo": "",
+  "docs": "",
+  "author": {
+    "name": "Trexthemes",
+    "email": "trexthemes@gmail.com"
+  },
+  "keywords": [
+    "ghost",
+    "theme",
+    "ghost-theme",
+    "magazine theme"
+  ],
+  "screenshots": {
+    "desktop": "assets/screenshot-desktop.jpg",
+    "mobile": "assets/screenshot-mobile.jpg"
+  },
+  "config": {
+    "posts_per_page": 9,
+    "image_sizes": {
+      "xxs": {
+        "width": 5
+      },
+      "xs": {
+        "width": 100
+      },
+      "s": {
+        "width": 300
+      },
+      "m": {
+        "width": 600
+      },
+      "l": {
+        "width": 1000
+      },
+      "xl": {
+        "width": 2000
+      }
+    },
+    "card_assets": true,
+    "custom": {
+      "logo_for_dark_mode": {
+        "type": "image"
+      },
+      "number_of_links_before_more": {
+        "type": "text"
+      },
+      "more_text": {
+        "type": "text",
+        "default": "More"
+      },
+      "tiktok_link": {
+        "type": "text"
+      },
+      "youtube_link": {
+        "type": "text"
+      },
+      "instagram_link": {
+        "type": "text"
+      },
+      "pinterest_link": {
+        "type": "text"
+      },
+      "editor_section_title": {
+        "type": "text",
+        "default": "Where the Argument Starts"
+      },
+      "copyright_footer": {
+        "type": "text",
+        "default": "Published with <a href=\"https://ghost.org/\" target=\"_blank\" rel=\"noopener\">Ghost</a>"
+      },
+      "beyondwords_project_id": {
+        "type": "text"
+      },
+      "ghost_content_api_key": {
+        "type": "text"
+      },
+      "hero_thought_quote": {
+        "type": "text"
+      },
+      "hero_headline": {
+        "type": "text",
+        "default": "UX ARENA examines why design systems, handoffs, and product decisions fail inside real organizations."
+      },
+      "hero_subheadline": {
+        "type": "text",
+        "default": "In my entirely self-appointed role as design vigilante —through stories, arguments, and occasional unhinged observations… Join the people trying to make design survive reality."
+      },
+      "hero_image": {
+        "type": "image"
+      },
+      "protected_page_password_hash": {
+        "type": "text"
+      },
+      "formspree_form_id": {
+        "type": "text"
+      },
+      "footer_quote": {
+        "type": "text",
+        "default": "The design system was never the problem. It was the meeting about the design system. You know the one."
+      },
+      "footer_statement": {
+        "type": "text",
+        "default": "This is my design story. And I'm sticking to it."
+      },
+      "footer_statement_sub": {
+        "type": "text",
+        "default": "You probably have a better one. Write it down before the next sprint planning buries it permanently."
+      }
+    }
+  },
+  "scripts": {
+    "start": "npx gulp",
+    "prod": "gulp prod"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4.1.6",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.0.7",
+    "gulp": "^5.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-livereload": "^4.0.2",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^10.0.0",
+    "gulp-uglify": "^3.0.2",
+    "postcss": "^8.5.3",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^4.1.6"
+  },
+  "dependencies": {
+    "gulp-rename": "^2.0.0"
+  }
+}

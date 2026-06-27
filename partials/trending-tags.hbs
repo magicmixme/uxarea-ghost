@@ -1,0 +1,34 @@
+{{#get "tags" filter="visibility:public" limit="10"}}
+    {{#match tags.length ">" "0"}}
+        <section class="splide ux-arena_container_small mb-12" id="trending-tags">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="!font-body text-2xl uppercase font-light">{{t "Choose the Failure Pattern"}}</h2>
+                <div class="flex items-center space-x-1">
+                    <button class="hover:cursor-pointer" id="move-left">{{>"icons/arrow-left" size="20"}}</button>
+                    <button class="hover:cursor-pointer" id="move-right">{{>"icons/arrow-right" size="20"}}</button>
+                </div>
+            </div>
+            <div class="splide__track">
+                <div class="splide__list">
+                    {{#foreach tags}}
+                        <div class="splide__slide">
+                            <a href="{{url}}" class="bg-ghost-accent text-black-950 p-8 rounded-xl flex flex-col gap-y-4 group h-full" {{#if accent_color}}style="background-color: {{accent_color}}!important;"{{/if}}>
+                                <span class="flex flex-col gap-y-3 flex-1">
+                                    <span class="font-bold text-xl group-hover:underline font-heading">{{name}}</span>
+                                    {{#if description}}
+                                        <span class="text-sm line-clamp-3">
+                                            {{description}}
+                                        </span>
+                                    {{/if}}
+                                </span>
+                                <span class="inline-block self-start rounded-full uppercase font-semibold text-[10px] px-4 py-2.5 bg-white text-black-950">
+                                    {{t "Explore Arguments"}} →
+                                </span>
+                            </a>
+                        </div>
+                    {{/foreach}}
+                </div>
+            </div>
+        </section>
+    {{/match}}
+{{/get}}

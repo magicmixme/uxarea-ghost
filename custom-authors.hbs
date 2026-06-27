@@ -1,0 +1,68 @@
+{{!< default}}
+
+{{>"header"}}
+
+<main id="trex_main" class="flex-1 py-6 ux-arena_container_small relative w-full">
+
+    <div class="grid-bg absolute w-full h-full top-0 left-0 right-0"></div>
+    
+    <div class="relative z-20">
+        {{#post}}
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="font-semibold text-4xl mb-3">{{title}}</h1>
+                {{#if custom_excerpt}}
+                    <div class=" text-black-600 max-w-lg mx-auto">{{custom_excerpt}}</div>
+                {{/if}}
+            </div>
+        {{/post}}
+
+        {{#get "authors" limit="100" include="count.posts"}}
+            <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {{#foreach authors}}
+                    <div class="px-6 py-8 bg-black-100 dark:bg-black-850 rounded-xl flex flex-col gap-y-2">
+                        <div class="flex flex-col gap-y-2 flex-1">
+                            {{#if profile_image}}
+                                <div class="relative w-[80px] h-[80px] rounded-full overflow-hidden">
+                                    <a href="{{url}}" class="absolute top-0 left-0 right-0 bottom-0 group hover:cursor-pointer overflow-hidden rounded-full">
+                                        <img
+                                            src="{{img_url profile_image size='xxs'}}"
+                                            data-src="{{img_url profile_image}}"
+                                            alt="{{name}}"
+                                            class="w-full h-full object-cover object-top lazytrex-image rounded-full group-hover:scale-[1.03] transition-[scale] duration-400"
+                                            loading="lazy"
+                                        />
+                                        <span class="lazytrex-blur rounded-full"></span>
+                                    </a>
+                                </div>
+                            {{else}}
+                                <div class="relative w-[80px] h-[80px] rounded-full bg-ghost-accent text-black-950 flex items-center justify-center">
+                                    <a href="{{url}}" class="font-heading text-3xl trex_taxonomy_name uppercase font-semibold hidden">
+                                        {{name}}
+                                    </a>
+                                </div>
+                            {{/if}}
+                            <h2 class="text-xl font-bold hover:underline">
+                                <a href="{{url}}">
+                                    {{name}}
+                                </a>
+                            </h2>
+                            {{#if location}}
+                                <div class="text-xs text-black-600 font-medium">
+                                    <span>{{t "From"}} {{location}}</span>
+                                </div>
+                            {{/if}}
+                            {{#if bio}}
+                                <div class="text-sm">{{bio}}</div>
+                            {{/if}}
+                        </div>
+                        <span class="ux-arena_tag hover:!bg-ghost-accent block self-start mt-2">
+                            {{count.posts}} {{t "posts"}}
+                        </span>
+                    </div>
+                {{/foreach}}
+            </div>
+        {{/get}}
+    </div>
+</main>
+
+{{>"footer"}}

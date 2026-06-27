@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+  <head>
+    <title>{{ meta_title }}</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    {{! Preload scripts }}
+    <link rel="preload" as="style" href="{{asset 'built/screen.css'}}" />
+    <link rel="preload" as="script" href="{{asset 'built/main.js'}}" />
+
+    <link rel="stylesheet" type="text/css" href="{{asset 'built/screen.css'}}" />
+
+    <script>
+      document.documentElement.classList.add('dark');
+    </script>
+    
+    {{ghost_head}}
+  </head>
+  <body class="font-body min-h-screen relative {{ body_class }} {{{block "body_class"}}}">
+    <a href="#trex_main" class="skip-link">{{t "Skip to content"}}</a>
+    <div id="reading-progress-bar" aria-hidden="true"></div>
+    
+    {{>"components/menu-drawer"}}
+
+    {{#is "index"}}
+      <div class="grid-bg absolute w-full h-[1000px] top-0 left-0 right-0"></div>
+    {{/is}}
+
+    <div class="relative flex flex-col z-10 w-full min-h-screen">
+      {{{body}}}
+    </div>
+
+    {{#is "post, page"}}
+        {{> "components/lightbox"}}
+        <div id="reader-controls" role="complementary" aria-label="Reading controls">
+            <div id="reader-panel" class="hidden" aria-label="Reading preferences">
+                <p class="reader-section-title">Text Size</p>
+                <div class="reader-row">
+                    <button id="font-decrease" aria-label="Decrease font size">A−</button>
+                    <button id="font-reset" aria-label="Reset font size">A</button>
+                    <button id="font-increase" aria-label="Increase font size">A+</button>
+                </div>
+                <div class="reader-divider"></div>
+                <p class="reader-section-title">Line Spacing</p>
+                <div class="reader-row">
+                    <button id="lh-decrease" aria-label="Compact spacing">Compact</button>
+                    <button id="lh-increase" aria-label="Spacious spacing">Spacious</button>
+                </div>
+                <div class="reader-divider"></div>
+                <button id="reading-mode-btn" class="reader-full-btn" aria-label="Toggle focus mode">Focus Mode</button>
+            </div>
+            <button id="reader-toggle" aria-label="Reading options" title="Reading options">Aa</button>
+        </div>
+        <div id="selection-menu" role="toolbar" aria-label="Text actions">
+            <button id="sel-copy" aria-label="Copy selected text">Copy</button>
+            <span class="sel-divider"></span>
+            <button id="sel-share-x" aria-label="Share on X">Share on X</button>
+        </div>
+    {{/is}}
+
+    <button id="backToTop" title="{{t 'Back to Top'}}">
+      {{>"icons/arrow-up" size="22"}}
+    </button>
+
+    <script src="{{asset 'built/main.js'}}"></script>
+    {{#is "post, page"}}
+    <script>
+      document.querySelectorAll('.post-content a[href]').forEach(function(a) {
+        try {
+          if (new URL(a.href).hostname !== location.hostname) {
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+          }
+        } catch(e) {}
+      });
+    </script>
+    {{/is}}
+    {{#is "post"}}
+    {{#if @custom.beyondwords_project_id}}
+    <script>
+      (function() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://proxy.beyondwords.io/npm/@beyondwords/player@latest/dist/umd.js';
+        s.onload = function() {
+          if (typeof BeyondWords !== 'undefined' && document.getElementById('beyondwords-player')) {
+            new BeyondWords.Player({
+              target: '#beyondwords-player',
+              projectId: {{@custom.beyondwords_project_id}}
+            });
+          }
+        };
+        document.head.appendChild(s);
+      })();
+    </script>
+    {{/if}}
+    {{/is}}
+    {{ ghost_foot }}
+  </body>
+</html>

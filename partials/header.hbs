@@ -1,0 +1,70 @@
+<header class="bg-black-50 dark:bg-black-900" id="ux-arena_header">
+    <div class="border-b border-black-200 dark:border-black-800 py-4">
+        <div class="ux-arena_container flex items-center justify-between xl:grid xl:grid-cols-[1fr_auto_1fr]">
+
+            <!-- Logo (left) -->
+            <div class="flex items-center">
+                <div class="block dark:hidden">
+                    {{#if @site.logo}}
+                        <a href="{{@site.url}}"><img src="{{@site.logo}}" alt="{{@site.title}}" class="max-w-[135px]" /></a>
+                    {{else}}
+                        <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">{{@site.title}}</a>
+                    {{/if}}
+                </div>
+                <div class="hidden dark:block">
+                    {{#if @custom.logo_for_dark_mode}}
+                        <a href="{{@site.url}}"><img src="{{@custom.logo_for_dark_mode}}" alt="{{@site.title}}" class="max-w-[135px]" /></a>
+                    {{else}}
+                        <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">{{@site.title}}</a>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- Nav (center, desktop only) -->
+            <div class="hidden xl:flex items-center">
+                <nav
+                    class="main_nav hidden"
+                    id="main-nav"
+                    data-number-links="{{#if @custom.number_of_links_before_more}}{{@custom.number_of_links_before_more}}{{else}}5{{/if}}"
+                    data-label="{{@custom.more_text}}"
+                >
+                    {{navigation}}
+                </nav>
+            </div>
+
+            <!-- Actions (right) + mobile hamburger -->
+            <div class="flex items-center justify-end space-x-4">
+                <div class="flex xl:hidden">
+                    {{>"components/drawer-open"}}
+                </div>
+                {{#if @site.members_enabled}}
+                    {{#unless @member}}
+                        {{#unless @site.members_invite_only}}
+                            <div class="flex items-center space-x-4">
+                                <a class="text-sm font-semibold shrink-0" href="/signin">
+                                    <span>{{t "Sign in"}}</span>
+                                </a>
+                                <a class="ux-arena_btn" href="/membership">
+                                    <span>{{@site.portal_button_signup_text}}</span>
+                                </a>
+                            </div>
+                        {{else}}
+                            <a class="text-sm font-semibold shrink-0" href="/signin">
+                                <span>{{t "Sign in"}}</span>
+                            </a>
+                        {{/unless}}
+                    {{else}}
+                        <a class="ux-arena_btn" href="#/portal/account" data-portal="account">
+                            <span>{{t "Account"}}</span>
+                        </a>
+                    {{/unless}}
+                {{/if}}
+                <button class="hover:cursor-pointer shrink-0" data-ghost-search>
+                    <span>{{>"icons/search" size="18"}}</span>
+                </button>
+                {{>"components/switch-mode-btn"}}
+            </div>
+
+        </div>
+    </div>
+</header>

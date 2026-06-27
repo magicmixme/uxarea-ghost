@@ -1,0 +1,49 @@
+{{!< default}}
+
+{{#if @custom.ghost_content_api_key}}
+<script>window.GHOST_CONTENT_API_KEY = '{{@custom.ghost_content_api_key}}';</script>
+{{/if}}
+
+{{>"header"}}
+
+<main id="trex_main" class="flex-1">
+
+    {{>"hero-thought"}}
+
+    {{#if @custom.editor_section_title}}{{!-- editor-section paused. To restore: replace this comment with {{>"editor-section"}} --}}{{/if}}
+
+    {{> "where-to-start"}}
+
+    {{> "trending-tags"}}
+
+    {{> "featured-posts"}}
+
+    <!-- {{> "tag-section"}} -->
+
+    <section class="ux-arena_container_small mb-12">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="!font-body text-2xl uppercase font-light">{{t "Recent Arguments"}}</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-4" id="trex_blog">
+            {{#foreach posts}}
+                <article class="recent-arg-item trex_post {{post_class}}">
+                    {{#primary_tag}}
+                        <a href="{{url}}" class="ux-arena_tag_small recent-arg-tag" {{#if accent_color}}style="background-color:{{accent_color}}!important;border-color:{{accent_color}}!important;"{{/if}}>{{name}}</a>
+                    {{/primary_tag}}
+                    <h3 class="recent-arg-title">{{title}}</h3>
+                    <div class="recent-arg-meta">
+                        {{#primary_author}}
+                            <span>{{name}}</span>
+                        {{/primary_author}}
+                    </div>
+                    <a href="{{url}}" class="recent-arg-cover" aria-label="{{title}}"></a>
+                </article>
+            {{/foreach}}
+        </div>
+        <div class="py-8">
+            {{pagination}}
+        </div>
+    </section>
+</main>
+
+{{>"footer"}}

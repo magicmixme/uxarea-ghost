@@ -1,0 +1,50 @@
+<footer class="bg-black-50 dark:bg-black-900">
+
+    <!-- Logo + Quote -->
+    <div class="flex flex-col items-center text-center py-16 px-6 gap-y-8 border-b border-black-200 dark:border-black-800">
+        <div>
+            <div class="block dark:hidden">
+                {{#if @site.logo}}
+                    <a href="{{@site.url}}"><img src="{{@site.logo}}" alt="{{@site.title}}" class="max-w-[200px] mx-auto" /></a>
+                {{else}}
+                    <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">{{@site.title}}</a>
+                {{/if}}
+            </div>
+            <div class="hidden dark:block">
+                {{#if @custom.logo_for_dark_mode}}
+                    <a href="{{@site.url}}"><img src="{{@custom.logo_for_dark_mode}}" alt="{{@site.title}}" class="max-w-[200px] mx-auto" /></a>
+                {{else}}
+                    <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">{{@site.title}}</a>
+                {{/if}}
+            </div>
+        </div>
+
+        <hr class="w-full max-w-4xl border-black-200 dark:border-black-800">
+
+        {{#if @custom.footer_quote}}
+            <p class="font-semibold text-2xl max-w-2xl mx-auto text-center" style="color:#565656">
+                {{@custom.footer_quote}}
+            </p>
+        {{/if}}
+    </div>
+
+    <!-- Statement -->
+    <div class="flex flex-col items-center text-center py-16 px-6 gap-y-4 border-b border-black-200 dark:border-black-800">
+        <p class="text-xl font-bold text-black-900 dark:text-black-50 max-w-2xl leading-snug">{{@custom.footer_statement}}</p>
+        <p class="text-base text-black-600 dark:text-black-400 max-w-xl leading-relaxed">{{@custom.footer_statement_sub}}</p>
+        <a href="#/portal/signup" class="mt-2 inline-block px-8 py-3 bg-ghost-accent text-black font-bold text-sm uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">Subscribe</a>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="flex flex-col items-center gap-y-3 px-8 py-6 text-xs text-black-500 dark:text-black-500 xl:flex-row xl:py-4">
+        <nav class="flex flex-wrap justify-center gap-x-2 gap-y-1 uppercase tracking-wide xl:flex-1 xl:justify-start">
+            {{#foreach @site.navigation}}
+                {{#unless @first}}<span>-</span>{{/unless}}
+                <a href="{{this.url}}" class="hover:text-black-300 dark:hover:text-black-300 transition-colors">{{this.label}}</a>
+            {{/foreach}}
+        </nav>
+        <span class="xl:flex-1 text-center">&copy; {{date format="YYYY"}} <a href="{{@site.url}}" class="hover:text-black-300 dark:hover:text-black-300 transition-colors">{{@site.title}}</a>. {{{@custom.copyright_footer}}}</span>
+        <span class="xl:flex-1 xl:text-right">Made in Chicago</span>
+    </div>
+
+</footer>

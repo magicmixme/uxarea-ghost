@@ -1,0 +1,61 @@
+<section class="ux-arena_container_small mb-12">
+    <div class="hero-grid">
+
+        <!-- Left: Content -->
+        <div class="hero-content">
+            {{#if @custom.hero_headline}}
+                <h1 class="hero-headline">{{@custom.hero_headline}}</h1>
+            {{/if}}
+
+            {{#if @custom.hero_subheadline}}
+                <p class="hero-description">{{@custom.hero_subheadline}}</p>
+            {{/if}}
+
+            {{#if @custom.hero_thought_quote}}
+            <blockquote class="hero-quote-block">
+                <span class="hero-quote-mark">"</span>
+                <p>{{@custom.hero_thought_quote}}</p>
+            </blockquote>
+            {{/if}}
+
+            {{#if @site.members_enabled}}
+                {{#unless @member}}
+                    {{#unless @site.members_invite_only}}
+                    <form data-members-form="subscribe" class="hero-form">
+                        <div class="hero-form-row">
+                            <input
+                                data-members-email
+                                type="email"
+                                placeholder="{{t "Email address"}}"
+                                required
+                                class="hero-email-input"
+                            />
+                            <button type="submit" class="ux-arena_btn !bg-ghost-accent !text-black shrink-0">
+                                <span class="trex_subscribe_text">{{t "Subscribe"}}</span>
+                                <span class="trex_subscribe_loading">{{t "Sending…"}}</span>
+                            </button>
+                        </div>
+                        <p class="hero-form-hint">Weekly arguments about how design survives real organizations</p>
+                        <p class="trex-form-success mt-3 text-sm">{{t "Check your inbox for a confirmation link."}}</p>
+                        <p class="trex-form-error mt-3 text-sm">{{t "Something went wrong. Please try again."}}</p>
+                    </form>
+                    {{/unless}}
+                {{/unless}}
+            {{/if}}
+        </div>
+
+        <!-- Right: Image or dot grid -->
+        <div class="hero-visual">
+            {{#if @custom.hero_image}}
+                <img src="{{@custom.hero_image}}" alt="{{@site.title}}" class="hero-image-right">
+            {{else}}
+                <div class="hero-dot-grid grid-bg"></div>
+                <span class="hero-accent-dot" style="top:18%;left:68%;background:#4f8ef7;"></span>
+                <span class="hero-accent-dot" style="top:42%;left:88%;background:var(--ghost-accent-color);"></span>
+                <span class="hero-accent-dot" style="top:62%;left:52%;background:#e05555;"></span>
+                <span class="hero-accent-dot" style="top:28%;left:92%;background:#22c55e;"></span>
+            {{/if}}
+        </div>
+
+    </div>
+</section>

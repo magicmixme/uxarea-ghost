@@ -1,0 +1,43 @@
+{{!< default}}
+
+{{>"header"}}
+
+<main id="trex_main" class="flex-1 py-6 ux-arena_container_small relative w-full">
+
+    <div class="grid-bg absolute w-full h-full top-0 left-0 right-0"></div>
+
+    <div class="relative z-20">
+        {{#post}}
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="font-semibold text-4xl mb-3">{{title}}</h1>
+                {{#if custom_excerpt}}
+                    <div class=" text-black-600 max-w-lg mx-auto">{{custom_excerpt}}</div>
+                {{/if}}
+            </div>
+        {{/post}}
+
+        {{#get "tags" limit="100" include="count.posts"}}
+            <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {{#foreach tags}}
+                    <a href="{{url}}" class="bg-ghost-accent group text-black-950 p-6 rounded-xl flex flex-col gap-y-4" {{#if accent_color}}style="background-color: {{accent_color}}!important;"{{/if}}>
+                        <span class="flex flex-col gap-y-3 flex-1">
+                            <span class="font-bold text-xl group-hover:underline font-heading">
+                                {{name}}
+                            </span>
+                            {{#if description}}
+                                <span class="text-sm line-clamp-3">
+                                    {{description}}
+                                </span>
+                            {{/if}}
+                        </span>
+                        <span class="inline-block self-start rounded-full uppercase font-semibold text-[10px] px-4 py-2.5 bg-white text-black-950">
+                            {{count.posts}} {{t "posts"}}
+                        </span>
+                    </a>
+                {{/foreach}}
+            </div>
+        {{/get}}
+    </div>
+</main>
+
+{{>"footer"}}

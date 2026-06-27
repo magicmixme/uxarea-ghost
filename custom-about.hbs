@@ -1,0 +1,136 @@
+{{!< default}}
+
+<div class="grid-bg absolute w-full h-[400px] top-0 left-0 right-0"></div>
+
+<div class="min-h-screen relative z-20 flex flex-col">
+
+    {{>"header"}}
+
+    {{#post}}
+
+        <main id="trex_main" class="flex-1 py-6 w-full relative z-20">
+            <article class="{{post_class}}">
+                <div class="ux-arena_container_small relative">
+                    <div class="max-w-3xl flex flex-col justify-center items-center text-center gap-y-6 mx-auto mb-12">
+                        <h1 class="font-semibold text-4xl">{{title}}</h1>
+                        {{#if custom_excerpt}}
+                            <div class="text-black-600">{{custom_excerpt}}</div>
+                        {{/if}}
+                    </div>
+                    {{#if feature_image}}
+                        <div class="mb-12">
+                            <div class="relative aspect-video overflow-hidden">
+                                <span class="absolute top-0 left-0 right-0 bottom-0 overflow-hidden rounded-xl">
+                                    <img
+                                        src="{{img_url feature_image size='xxs'}}"
+                                        data-src="{{img_url feature_image}}"
+                                        alt="{{#if feature_image_alt}}{{ feature_image_alt }}{{else}}{{title}}{{/if}}"
+                                        class="w-full h-full object-cover object-top lazytrex-image rounded-xl"
+                                        loading="lazy"
+                                    />
+                                    <span class="lazytrex-blur rounded-xl"></span>
+                                </span>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="canvas post-content">
+                    {{content}}
+                </div>
+            </article>
+
+            {{#if @custom.formspree_form_id}}
+            <!-- Contact form -->
+            <div class="ux-arena_container_small mt-16 mb-12">
+                <div class="max-w-xl mx-auto">
+                    <h2 class="text-2xl font-bold mb-2">Get in touch</h2>
+                    <p class="text-black-500 dark:text-black-400 text-sm mb-8">Have a question, feedback, or just want to say hello — send it over.</p>
+
+                    <form id="about-contact-form" class="flex flex-col gap-y-4" novalidate>
+                        <input
+                            type="text"
+                            id="contact-name"
+                            class="ux-arena_input"
+                            placeholder="Your name"
+                            required
+                            aria-label="Your name"
+                        />
+                        <input
+                            type="email"
+                            id="contact-email"
+                            class="ux-arena_input"
+                            placeholder="Your email"
+                            required
+                            aria-label="Your email"
+                        />
+                        <textarea
+                            id="contact-message"
+                            class="about-contact-textarea"
+                            placeholder="Your message"
+                            rows="6"
+                            required
+                            aria-label="Your message"
+                        ></textarea>
+                        <button type="submit" id="contact-submit" class="ux-arena_btn !bg-ghost-accent !text-black w-full !h-[50px] hover:cursor-pointer">
+                            Send message
+                        </button>
+                        <p id="contact-error" class="text-sm text-red-500 hidden"></p>
+                    </form>
+                    <p id="contact-success" class="hidden text-sm text-green-500 mt-4">Message sent. I'll get back to you shortly.</p>
+                </div>
+            </div>
+
+            <script>
+            (function () {
+                var formspreeId = '{{@custom.formspree_form_id}}';
+                var form     = document.getElementById('about-contact-form');
+                var submit   = document.getElementById('contact-submit');
+                var errorEl  = document.getElementById('contact-error');
+                var successEl = document.getElementById('contact-success');
+
+                if (!form || !formspreeId) return;
+
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    var name    = document.getElementById('contact-name').value.trim();
+                    var email   = document.getElementById('contact-email').value.trim();
+                    var message = document.getElementById('contact-message').value.trim();
+
+                    if (!name || !email || !message) {
+                        errorEl.textContent = 'Please fill in all fields.';
+                        errorEl.classList.remove('hidden');
+                        return;
+                    }
+
+                    submit.disabled = true;
+                    submit.textContent = 'Sending…';
+                    errorEl.classList.add('hidden');
+
+                    try {
+                        var res = await fetch('https://formspree.io/f/' + formspreeId, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                            body: JSON.stringify({ name: name, email: email, message: message, _subject: 'Message from ' + name })
+                        });
+                        if (res.ok) {
+                            form.style.display = 'none';
+                            successEl.classList.remove('hidden');
+                        } else {
+                            throw new Error();
+                        }
+                    } catch (_) {
+                        errorEl.textContent = 'Something went wrong. Please try again.';
+                        errorEl.classList.remove('hidden');
+                        submit.disabled = false;
+                        submit.textContent = 'Send message';
+                    }
+                });
+            })();
+            </script>
+            {{/if}}
+
+        </main>
+    {{/post}}
+
+    {{>"footer"}}
+</div>

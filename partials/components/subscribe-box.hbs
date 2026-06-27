@@ -1,0 +1,30 @@
+{{#if @site.members_enabled}}
+    {{#unless @member}}
+        {{#unless @site.members_invite_only}}
+
+            <section class="max-w-4xl mx-auto flex flex-col items-center py-16 gap-y-6 px-6" id="subscribe-box">
+                <h1 class="font-semibold text-3xl max-w-2xl mx-auto text-center">
+                    {{t "Subscribe"}}
+                </h1>
+                <form data-members-form="subscribe" class="trex-form-subscribe w-full">
+                    <span class="flex items-center justify-center gap-2 flex-col min-[500px]:flex-row w-full">
+                        <input
+                            data-members-email
+                            type="email"
+                            placeholder="{{t "Email address"}}"
+                            required
+                            class="ux-arena_input w-full min-[400px]:w-[350px]"
+                        />
+                        <button type="submit" class="ux-arena_btn !bg-ghost-accent !text-black shrink-0">
+                            <span class="trex_subscribe_text">{{t "Subscribe"}}</span>
+                            <span class="trex_subscribe_loading">{{t "Sending…"}}</span>
+                        </button>
+                    </span>
+                    <p class="trex-form-success mt-4 text-center">{{t "Check your inbox for a confirmation link."}}</p>
+                    <p class="trex-form-error mt-4 text-center">{{t "Something went wrong. Please try again."}}</p>
+                </form>
+            </section>
+
+        {{/unless}}
+    {{/unless}}
+{{/if}}

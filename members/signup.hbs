@@ -1,0 +1,88 @@
+{{!< ../default}}
+
+
+{{#unless @site.members_enabled}}
+    <script>window.location = '{{@site.url}}';</script>
+{{else}}
+    {{#if @site.members_invite_only}}
+        <script>window.location = '{{@site.url}}';</script>
+    {{/if}}
+{{/unless}}
+
+{{#if @member}}
+    {{#if @member.paid}}
+        <script>window.location = '{{@site.url}}';</script>
+    {{else}}
+        <script>window.location = '{{@site.url}}/membership/';</script>
+    {{/if}}
+{{/if}}
+
+<div class="relative min-h-screen px-6">
+    <div class="grid-bg absolute w-full h-full top-0 left-0 right-0"></div>
+    <div class="relative z-20">
+        {{!-- Logo --}}
+        <div class="mt-32 mb-24">
+            <div class="block dark:hidden">
+                {{#if @site.logo}}
+                    <a href="{{@site.url}}"><img src="{{@site.logo}}" alt="{{@site.title}}" class="max-w-[135px] mx-auto" /></a>
+                {{else}}
+                    <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">
+                        {{@site.title}}
+                    </a>
+                {{/if}}
+            </div>
+
+            <div class="hidden dark:block">
+                {{#if @custom.logo_for_dark_mode }}
+                    <a href="{{@site.url}}"><img src="{{@custom.logo_for_dark_mode}}" alt="{{@site.title}}" class="max-w-[135px] mx-auto" /></a>
+                {{else}}
+                    <a href="{{@site.url}}" class="font-bold text-3xl uppercase tracking-tighter font-heading">
+                        {{@site.title}}
+                    </a>
+                {{/if}}
+            </div>
+        </div>
+        {{!-- End Logo --}}
+        <form action="#" data-members-form="signup" class="trex-form-subscribe">
+            <div data-members-error class="trex-form-error"></div>
+            <div class="trex-form-success">
+                {{t "Check your inbox and click the link to confirm your sign up"}}
+            </div>
+            <div class="py-12 px-4 sm:px-12 border border-black-200 max-w-[500px] bg-white dark:bg-black-900 dark:border-black-800 rounded-2xl mx-auto flex flex-col gap-y-4">
+                <div class="pb-10">
+                    {{#post}}
+                        <div class="text-center">
+                            <h1 class="font-bold text-3xl mb-2">{{title}}</h1>
+                            {{#if custom_excerpt}}
+                                <div class="text-sm text-black-600 max-w-lg mx-auto">{{custom_excerpt}}</div>
+                            {{/if}}
+                        </div>
+                    {{/post}}
+                </div>
+                <div>
+                    <input data-members-name type="text"  class="ux-arena_input" placeholder="{{t "Your name"}}" required="required" autocomplete="false">
+                </div>
+                <div>
+                    <input data-members-email type="email" class="ux-arena_input" placeholder="{{t "Your email address"}}" required="required" autocomplete="false">
+                </div>
+                <div class="w-full">
+                    <button type="submit" class="ux-arena_btn w-full !bg-ghost-accent !text-black-950 !h-[50px] hover:cursor-pointer">
+                        <span class="trex_subscribe_text">{{t "Continue"}}</span>
+                        <span class="trex_subscribe_loading">{{t "Loading..."}}</span>
+                    </button>
+                    {{#if @site.portal_signup_checkbox_required}}
+                        <div class="text-xs text-black-600 dark:text-black-400 mt-2 [&_a]:underline [&_a]:font-semibold px-2">
+                            {{{@site.portal_signup_terms_html}}}
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="text-center text-sm font-medium text-black-700 dark:text-black-300 mt-4">
+                <span>{{t "Already have an account?"}}</span>
+                <a href="/signin" class="underline text-black-950 dark:text-black-50">{{t "Sign in"}}</a>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+</head>
+<body>
+    <main class="flex items-center justify-center min-h-screen">
+        <div>
+            <section class="text-center kate-wrapper">
+                <h1 class="font-bold text-6xl mb-6">{{statusCode}}</h1>
+                <p class="text-black-600 mb-6 text-lg">{{message}}</p>
+                <a href="{{@site.url}}" class="kate-btn">{{t "Back to home"}}</a>
+            </section>
+
+            {{#if errorDetails}}
+                <section class="canvas post-content">
+                    <h3>Theme errors</h3>
+                    <ul>
+                        {{#foreach errorDetails}}
+                            <li>
+                                <em>{{{rule}}}</em>
+                                {{#foreach failures}}
+                                    <p><span>Ref: {{ref}}</span></p>
+                                    <p><span>Message: {{message}}</span></p>
+                                {{/foreach}}
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                </section>
+            {{/if}}
+        </div>
+    </main>
+    {{ ghost_foot }}
+</body>
+</html>

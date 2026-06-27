@@ -1,0 +1,58 @@
+{{!< default}}
+
+{{>"header"}}
+
+<main id="trex_main" class="flex-1">
+    <div class="bg-black-50 dark:bg-black-900 relative min-h-[280px] flex items-center justify-center">
+        <div class="grid-bg-gray grid-bg absolute w-full h-full top-0 left-0 right-0"></div>
+        <div class="relative z-20">
+            {{#tag}}
+                <div class="flex flex-col gap-y-4 items-center text-center">
+                    {{#if feature_image}}
+                        <div class="relative w-[80px] h-[80px] rounded-full overflow-hidden hidden">
+                            <a href="{{url}}" class="absolute top-0 left-0 right-0 bottom-0 group hover:cursor-pointer overflow-hidden rounded-full">
+                                <img
+                                    src="{{img_url feature_image size='xxs'}}"
+                                    data-src="{{img_url feature_image}}"
+                                    alt="{{name}}"
+                                    class="w-full h-full object-cover object-top lazytrex-image rounded-full group-hover:scale-[1.03] transition-[scale] duration-400"
+                                    loading="lazy"
+                                />
+                                <span class="lazytrex-blur rounded-full"></span>
+                            </a>
+                        </div>
+                    {{else}}
+                        <div class="relative w-[80px] h-[80px] rounded-full bg-ghost-accent text-black-950 flex items-center justify-center hidden">
+                            <a href="{{url}}" class="font-heading text-3xl trex_taxonomy_name uppercase font-semibold hidden">
+                                {{name}}
+                            </a>
+                        </div>
+                    {{/if}}
+                    <h1 class="text-2xl font-bold hover:underline">
+                        <a href="{{url}}">
+                            {{name}}
+                        </a>
+                    </h1>
+                    {{#if description}}
+                        <div class="text-md max-w-3xl mx-auto" style="font-size:16px; font-weight:300;">{{description}}</div>
+                    {{/if}}
+                    <span class="ux-arena_tag hover:!bg-ghost-accent block mt-2">
+                        {{plural ../pagination.total empty='No posts' singular='% post' plural='% posts'}}
+                    </span>
+                </div>
+            {{/tag}}
+        </div>
+    </div>
+    <div class="py-16 ux-arena_container_small">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-12" id="trex_blog">
+            {{#foreach posts}}
+                {{>"loop-big" showTagFeatured="true" size="_small" showVisibility="true"}}
+            {{/foreach}}
+        </div>
+        <div class="py-8">
+            {{pagination}}
+        </div>
+    </div>
+</main>
+
+{{>"footer"}}

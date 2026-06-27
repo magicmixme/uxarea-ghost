@@ -1,0 +1,232 @@
+{{!< ../default}}
+
+{{#if @member.paid}}
+    <script>window.location = '{{@site.url}}';</script>
+{{/if}}
+
+<div class="grid-bg absolute w-full h-[600px] top-0 left-0 right-0"></div>
+
+<div class="min-h-screen relative z-20 flex flex-col">
+
+    {{>"header"}}
+
+    <main id="trex_main" class="flex-1 py-6">
+        <div class="ux-arena_container_small">
+            {{#post}}
+                <div class="text-center max-w-3xl mx-auto">
+                    <h1 class="font-semibold text-4xl mb-3">{{title}}</h1>
+                    {{#if custom_excerpt}}
+                        <div class="text-black-600 max-w-lg mx-auto">{{custom_excerpt}}</div>
+                    {{/if}}
+                </div>
+            {{/post}}
+            <div class="flex justify-center my-10">
+                <div class="bg-black-100 dark:bg-black-850 rounded-full p-1 inline-flex items-center gap-1 select-none">
+                    <div class="relative">
+                        <input id="trex_plan_month" name="membership_price" type="radio" value="month" class="sr-only peer" onclick="membershipClick(this);">
+                        <label for="trex_plan_month" class="trex_plan_radio">
+                            {{t "Monthly"}}
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input id="trex_plan_year" name="membership_price" type="radio" value="year" class="sr-only peer" checked onclick="membershipClick(this);">
+                        <label for="trex_plan_year" class="trex_plan_radio">
+                            {{t "Yearly"}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-6 trex_plan_yearly_price" id="trex_membership">
+                {{#if @member}}
+                    {{#get "tiers" filter="type:paid" include="monthly_price,yearly_price,benefits" as |tiers|}}
+                        {{#foreach tiers}}
+                            <div class="px-6 py-8 bg-black-100 dark:bg-black-850 rounded-xl flex flex-col gap-y-16">
+                                <div class="flex flex-col gap-y-6 flex-1">
+                                    <span class="text-xs uppercase self-start font-semibold bg-white border border-black-200 dark:bg-black-750 dark:border-black-700 rounded-full px-3 py-1">{{name}}</span>
+                                    
+                                    {{#match type '=' "free"}}
+                                        <div class="mt-10">
+                                            <span class="font-heading font-bold text-5xl">{{t "Free"}}</span>
+                                        </div>
+                                    {{else}}
+                                        {{#if monthly_price}}
+                                            <div class="mt-10 trex_plan_month flex -space-x-2">
+                                                <span class="font-heading font-bold text-5xl">
+                                                    <sup>
+                                                        {{price currency=currency}}
+                                                    </sup>
+                                                    {{price monthly_price}}
+                                                </span>
+                                                <span class="font-medium text-sm text-black-600">/ Month</span>
+                                            </div>
+                                        {{/if}}
+                                        {{#if yearly_price}}
+                                            <div class="mt-10 trex_plan_year flex -space-x-2">
+                                                <span class="font-heading font-bold text-5xl">
+                                                    <sup>
+                                                        {{price currency=currency}}
+                                                    </sup>
+                                                    {{price yearly_price}}
+                                                </span>
+                                                <span class="font-medium text-sm text-black-600">/ Year</span>
+                                            </div>
+                                        {{/if}}
+                                    {{/match}}
+                                    {{#if description}}
+                                        <div class="text-sm font-medium">
+                                            {{description}}
+                                        </div>
+                                    {{/if}}
+                                    <div class="text-sm text-black-700 dark:text-black-300">
+                                        {{#if benefits}}
+                                            <ul class="flex flex-col gap-y-3">
+                                                {{#foreach benefits as |benefit|}}
+                                                    <li class="flex items-center space-x-2">
+                                                        <span class="w-[15px] h-[15px] bg-ghost-accent text-black-950 flex items-center justify-center rounded-full">
+                                                            {{>"icons/check" size="12"}}
+                                                        </span>
+                                                        <span>{{benefit}}</span>
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    {{#match type '=' "free"}}
+                                        <a href="{{@site.url}}/signup/" class="ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{t "Sign up for free"}}
+                                        </a>
+                                    {{else}}
+                                        <a href="#" data-portal="signup/{{id}}/monthly" class="trex_plan_month ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{#if trial_days}}
+                                                {{t "Start {days}-day free trial" days=trial_days}}
+                                            {{else}}
+                                                {{t "Sign up now"}}
+                                            {{/if}}
+                                        </a>
+                                        <a href="#" data-portal="signup/{{id}}/yearly" class="trex_plan_year ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{#if trial_days}}
+                                                {{t "Start {days}-day free trial" days=trial_days}}
+                                            {{else}}
+                                                {{t "Sign up now"}}
+                                            {{/if}}
+                                        </a>
+                                    {{/match}}
+                                </div>
+                            </div>
+                        {{/foreach}}
+                    {{/get}}
+                {{else}}
+                    {{#get "tiers" include="monthly_price,yearly_price,benefits" as |tiers|}}
+                        {{#foreach tiers}}
+                            <div class="px-6 py-8 bg-black-100 dark:bg-black-850 rounded-xl flex flex-col gap-y-16">
+                                <div class="flex flex-col gap-y-6 flex-1">
+                                    <span class="text-xs uppercase self-start font-semibold bg-white border border-black-200 dark:bg-black-750 dark:border-black-700 rounded-full px-3 py-1">{{name}}</span>
+                                    
+                                    {{#match type '=' "free"}}
+                                        <div class="mt-10">
+                                            <span class="font-heading font-bold text-5xl">{{t "Free"}}</span>
+                                        </div>
+                                    {{else}}
+                                        {{#if monthly_price}}
+                                            <div class="mt-10 trex_plan_month flex -space-x-2">
+                                                <span class="font-heading font-bold text-5xl">
+                                                    <sup>
+                                                        {{price currency=currency}}
+                                                    </sup>
+                                                    {{price monthly_price}}
+                                                </span>
+                                                <span class="font-medium text-sm text-black-600">/ Month</span>
+                                            </div>
+                                        {{/if}}
+                                        {{#if yearly_price}}
+                                            <div class="mt-10 trex_plan_year flex -space-x-2">
+                                                <span class="font-heading font-bold text-5xl">
+                                                    <sup>
+                                                        {{price currency=currency}}
+                                                    </sup>
+                                                    {{price yearly_price}}
+                                                </span>
+                                                <span class="font-medium text-sm text-black-600">/ Year</span>
+                                            </div>
+                                        {{/if}}
+                                    {{/match}}
+                                    {{#if description}}
+                                        <div class="text-sm font-medium">
+                                            {{description}}
+                                        </div>
+                                    {{/if}}
+                                    <div class="text-sm text-black-700 dark:text-black-300">
+                                        {{#if benefits}}
+                                            <ul class="flex flex-col gap-y-3">
+                                                {{#foreach benefits as |benefit|}}
+                                                    <li class="flex items-center space-x-2">
+                                                        <span class="w-[15px] h-[15px] bg-ghost-accent text-black-950 flex items-center justify-center rounded-full">
+                                                            {{>"icons/check" size="12"}}
+                                                        </span>
+                                                        <span>{{benefit}}</span>
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    {{#match type '=' "free"}}
+                                        <a href="{{@site.url}}/signup/" class="ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{t "Sign up for free"}}
+                                        </a>
+                                    {{else}}
+                                        <a href="#" data-portal="signup/{{id}}/monthly" class="trex_plan_month ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{#if trial_days}}
+                                                {{t "Start {days}-day free trial" days=trial_days}}
+                                            {{else}}
+                                                {{t "Sign up now"}}
+                                            {{/if}}
+                                        </a>
+                                        <a href="#" data-portal="signup/{{id}}/yearly" class="trex_plan_year ux-arena_btn flex-1 text-center !bg-ghost-accent !text-black-950 hover:!bg-ghost-accent/80">
+                                            {{#if trial_days}}
+                                                {{t "Start {days}-day free trial" days=trial_days}}
+                                            {{else}}
+                                                {{t "Sign up now"}}
+                                            {{/if}}
+                                        </a>
+                                    {{/match}}
+                                </div>
+                            </div>
+                        {{/foreach}}
+                    {{/get}}
+                {{/if}}
+
+            </div>
+
+            <div class="text-center text-sm font-medium text-black-700 dark:text-black-300 mt-4">
+                <span>{{t "Already have an account?"}}</span>
+                <a href="/signin" class="underline text-black-950 dark:text-black-50">{{t "Sign in"}}</a>
+            </div>
+
+            {{!-- Content --}}
+            {{#post}}
+                <div class="prose canvas post-content mt-12">
+                    {{content}}
+                </div>
+            {{/post}}
+        </div>
+        {{#get "posts" limit="4" filter="visibility:[members]" include="authors,tags"}}
+            {{#match posts.length ">" 0}}
+                <div class="ux-arena_container_small px-4 mt-24">
+                    <div class="!font-body text-xs uppercase font-medium mb-3">{{t "The latest posts only for subscribers"}}</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                        {{#foreach posts}}
+                            {{>"loop" showTagFeatured="false" size="_small" showVisibility="false"}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/match}}
+        {{/get}}
+    </main>
+
+    {{>"footer"}}
+
+</div>

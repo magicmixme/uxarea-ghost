@@ -1,0 +1,50 @@
+{{!< default}}
+
+<div class="grid-bg absolute w-full h-[400px] top-0 left-0 right-0"></div>
+
+<div class="min-h-screen relative z-20 flex flex-col">
+
+    {{>"header"}}
+
+    {{#post}}
+
+        <main id="trex_main" class="flex-1 {{#if @page.show_title_and_feature_image}}py-6{{/if}} w-full relative z-20">
+            <article class="{{post_class}}">
+                {{#if @page.show_title_and_feature_image}}
+                    <div class="ux-arena_container_small relative">
+                        <div class="max-w-3xl flex flex-col justify-center items-center text-center gap-y-6 mx-auto mb-12">
+                            <h1 class="font-semibold text-4xl">{{title}}</h1>
+                            {{#if custom_excerpt}}
+                                <div class="text-black-600">{{custom_excerpt}}</div>
+                            {{/if}}
+                        </div>
+                        {{#if feature_image}}
+                            <div class="mb-12">
+                                <div class="relative aspect-video overflow-hidden">
+                                    <span class="absolute top-0 left-0 right-0 bottom-0 overflow-hidden rounded-xl">
+                                        <img
+                                            src="{{img_url feature_image size='xxs'}}"
+                                            data-src="{{img_url feature_image}}"
+                                            alt="{{#if feature_image_alt}}{{ feature_image_alt }}{{else}}{{title}}{{/if}}"
+                                            class="w-full h-full object-cover object-top lazytrex-image rounded-xl"
+                                            loading="lazy"
+                                        />
+                                        <span class="lazytrex-blur rounded-xl"></span>
+                                    </span>
+                                </div>
+                                {{#if feature_image_caption}}
+                                    <div class="text-black-600 text-sm [&_a]:underline mt-2">{{feature_image_caption}}</div>
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </div>
+                {{/if}}
+                <div class="canvas post-content {{#unless @page.show_title_and_feature_image}}landing-page-content{{/unless}}">
+                    {{content}}
+                </div>
+            </article>
+        </main>
+    {{/post}}
+
+    {{>"footer"}}
+</div>

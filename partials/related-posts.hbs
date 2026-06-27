@@ -1,0 +1,12 @@
+{{#get "posts" limit="4" filter="tag:{{primary_tag.slug}}+slug:-{{slug}}" include="authors,tags"}}
+    {{#match posts.length ">" 0}}
+        <section class="ux-arena_container_small px-4 mt-12">
+            <h2 class="!font-body text-2xl uppercase font-light mb-3">{{t "you might also like"}}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                {{#foreach posts}}
+                    {{>"loop" showTagFeatured="false" size="_small" showVisibility="false"}}
+                {{/foreach}}
+            </div>
+        </section>
+    {{/match}}
+{{/get}}

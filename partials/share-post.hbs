@@ -1,0 +1,30 @@
+{{#if access}}
+    {{#has visibility="public"}}
+        <div class="flex items-center space-x-4">
+            <a data-tippy-content="{{t 'Share on Facebook'}}" href="https://www.facebook.com/share.php?u={{url absolute="true"}}" target="_blank" class="">
+                {{>"icons/facebook" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share on X'}}" href="https://x.com/intent/tweet?text={{title}}&url={{url absolute="true"}}" target="_blank" class="">
+                {{>"icons/x" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share on LinkedIn'}}" href="https://www.linkedin.com/sharing/share-offsite/?url={{url absolute="true"}}" target="_blank" class="">
+                {{>"icons/linkedin" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share on Bluesky'}}" href="https://bsky.app/intent/compose?text={{title}}%20{{url absolute="true"}}" target="_blank" class="">
+                {{>"icons/bluesky" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share on Threads'}}" href="https://www.threads.net/intent/post?text={{url absolute="true"}}" target="_blank" class="">
+                {{>"icons/threads" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share on Pinterest'}}" href="https://pinterest.com/pin/create/button/?url={{url absolute="true"}}&media={{img_url feature_image}}&description={{title}}" target="_blank" class="">
+                {{>"icons/pinterest" size="22"}}
+            </a>
+            <a data-tippy-content="{{t 'Share via Email'}}" href="mailto:?subject={{title}}&body={{url absolute="true"}}" class="">
+                {{>"icons/mail" size="22"}}
+            </a>
+            <button id="copy-link-btn" data-tippy-content="{{t 'Copy link'}}" class="">
+                {{>"icons/copy" size="22"}}
+            </button>
+        </div>
+    {{/has}}
+{{/if}}
