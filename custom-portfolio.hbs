@@ -474,7 +474,8 @@
 
   <!-- ── Gate ── -->
   <div id="page-gate-overlay" class="page-gate-overlay" data-hash="{{@custom.protected_page_password_hash}}"
-    data-formspree="{{@custom.formspree_form_id}}" data-page-title="{{title}}">
+    data-formspree="{{@custom.formspree_form_id}}" data-portfolio-url="{{@custom.portfolio_subdomain_url}}"
+    data-page-title="{{title}}">
 
     <div class="page-gate-box">
       <div class="page-gate-brand">
@@ -499,6 +500,11 @@
             <button type="submit" class="page-gate-btn">Unlock →</button>
             <p id="page-gate-error" class="page-gate-error" role="alert" aria-live="polite"></p>
           </form>
+          <div id="gate-continue" class="gate-panel-hidden" style="text-align:center;">
+            <p class="page-gate-subtitle">Access granted.</p>
+            <a id="gate-continue-link" class="page-gate-btn" href="#"
+              style="display:inline-block; text-decoration:none;">Enter portfolio →</a>
+          </div>
         </div>
 
         <div id="gate-panel-request" class="gate-panel-hidden">
@@ -899,21 +905,38 @@
     /* ── GATE ── */
     (function () {
       var overlay = document.getElementById("page-gate-overlay");
-      var content = document.querySelector(".page-gate-content");
       var stored = overlay ? (overlay.dataset.hash || "") : "";
       var formspree = overlay ? (overlay.dataset.formspree || "") : "";
+      var portfolioUrl = overlay ? (overlay.dataset.portfolioUrl || "") : "";
       var pageTitle = overlay ? (overlay.dataset.pageTitle || "Portfolio") : "Portfolio";
       var SESSION_KEY = "page_gate_" + btoa(encodeURIComponent(location.pathname));
 
-      function unlock() {
-        if (overlay) overlay.style.display = "none";
-        if (content) content.style.display = "block";
-        document.body.style.overflow = "";
+      var continueBox = document.getElementById("gate-continue");
+      var continueLink = document.getElementById("gate-continue-link");
+      var switchRow = document.querySelector(".gate-switch-row");
+
+      // Append the validated token as a URL fragment (#k=...) so it stays out of
+      // server logs / referrers — the subdomain reads it client-side to validate.
+      // Switch "#" to "?" below if the subdomain validates server-side instead.
+      function tokenUrl(token) {
+        if (!portfolioUrl) return "#";
+        if (!token) return portfolioUrl;
+        var sep = portfolioUrl.indexOf("#") === -1 ? "#" : "&";
+        return portfolioUrl + sep + "k=" + encodeURIComponent(token);
       }
 
-      if (!stored) { unlock(); return; }
-      if (sessionStorage.getItem(SESSION_KEY) === stored) { unlock(); return; }
+      function showContinue(token) {
+        if (continueLink) continueLink.href = tokenUrl(token);
+        var pw = document.getElementById("page-gate-form");
+        if (pw) pw.style.display = "none";
+        if (switchRow) switchRow.style.display = "none";
+        if (continueBox) continueBox.classList.remove("gate-panel-hidden");
+        if (continueLink) continueLink.focus();
+      }
+
       document.body.style.overflow = "hidden";
+      if (!stored) { showContinue(""); return; }
+      if (sessionStorage.getItem(SESSION_KEY) === stored) { showContinue(stored); return; }
 
       async function sha256(str) {
         var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str.trim()));
@@ -932,7 +955,7 @@
           if (hash === stored) {
             sessionStorage.setItem(SESSION_KEY, stored);
             pwError.textContent = "";
-            unlock();
+            showContinue(stored);
           } else {
             pwError.textContent = "Incorrect password. Try again.";
             if (pwInput) { pwInput.value = ""; pwInput.focus(); }

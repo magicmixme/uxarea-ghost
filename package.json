@@ -99,6 +99,10 @@
       "protected_page_password_hash": {
         "type": "text"
       },
+      "portfolio_subdomain_url": {
+        "type": "text",
+        "default": "https://portfolio.uxarena.net/"
+      },
       "formspree_form_id": {
         "type": "text"
       },
