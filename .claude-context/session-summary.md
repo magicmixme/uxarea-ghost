@@ -69,7 +69,7 @@ A minimal blog and magazine Ghost theme. The theme has a dark-mode capable desig
 
 ## How to Restore Context on a New Mac
 
-1. Copy this entire project folder to the new Mac.
+1. Clone the repo: `git clone https://github.com/magicmixme/uxarea-ghost.git` (or copy the project folder). The `.claude-context/` folder is committed, so it travels with the repo.
 2. Install Claude Code: `npm install -g @anthropic-ai/claude-code`
 3. Open the project folder in VS Code or terminal.
 4. Launch Claude Code (`claude`) from inside the project directory.
@@ -81,5 +81,5 @@ A minimal blog and magazine Ghost theme. The theme has a dark-mode capable desig
 ## User Preferences & Notes
 - User works on a Mac (macOS)
 - Project is a Ghost CMS theme being actively developed
-- No git repository initialized — version history tracked by file timestamps only
+- Git is initialized — branch `main`, remote `origin` = https://github.com/magicmixme/uxarea-ghost.git (auth via GitHub PAT in macOS Keychain). The original updates below were dated by file timestamps because no git history existed at the time they were recorded.
 - User email: alaa.jabawi@gmail.com
