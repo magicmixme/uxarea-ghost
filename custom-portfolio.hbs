@@ -493,7 +493,7 @@
         </div>
 
         <div id="gate-panel-password">
-          <p class="page-gate-subtitle">Have the password? Enter it below.</p>
+          <p class="page-gate-subtitle" id="gate-pw-subtitle">Have the password? Enter it below.</p>
           <form id="page-gate-form" class="page-gate-form" novalidate>
             <input type="password" id="page-gate-input" class="page-gate-input" placeholder="Password"
               autocomplete="current-password" autofocus aria-label="Page password" />
@@ -503,7 +503,7 @@
           <div id="gate-continue" class="gate-panel-hidden" style="text-align:center;">
             <p class="page-gate-subtitle">Access granted.</p>
             <a id="gate-continue-link" class="page-gate-btn" href="#"
-              style="display:inline-block; text-decoration:none;">Enter portfolio →</a>
+              style="display:flex; align-items:center; justify-content:center; text-decoration:none;">Enter portfolio →</a>
           </div>
         </div>
 
@@ -929,6 +929,8 @@
         if (continueLink) continueLink.href = tokenUrl(token);
         var pw = document.getElementById("page-gate-form");
         if (pw) pw.style.display = "none";
+        var pwSub = document.getElementById("gate-pw-subtitle");
+        if (pwSub) pwSub.style.display = "none";
         if (switchRow) switchRow.style.display = "none";
         if (continueBox) continueBox.classList.remove("gate-panel-hidden");
         if (continueLink) continueLink.focus();
